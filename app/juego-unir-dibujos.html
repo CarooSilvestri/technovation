@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- app/juego-unir-dibujos.html — Unir palabra con dibujo (maqueta fácil). -->
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#6c757d" />
+    <title>Letritas — Palabra y dibujo</title>
+    <link rel="manifest" href="manifest.json" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <link href="css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar bg-white app-navbar">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">Letritas</a>
+        <a class="nav-link" href="index.html">Inicio</a>
+      </div>
+    </nav>
+
+    <main class="container py-4">
+      <h1 class="h4 mb-1">Unir palabra y dibujo</h1>
+      <p class="text-muted small mb-4">
+        Una columna con palabras y otra con dibujos; las flechas del centro son para maquetar la
+        elección (en la app final puede dibujarse la línea).
+      </p>
+
+      <div class="match-columns">
+        <div class="match-col">
+          <span class="small text-muted text-center">Palabra</span>
+          <div class="match-item" style="font-size: 1.1rem">OSO</div>
+          <div class="match-item" style="font-size: 1.1rem">AJO</div>
+          <div class="match-item" style="font-size: 1.1rem">UVA</div>
+        </div>
+        <div class="match-arrows">
+          <select class="form-select" aria-label="Unir oso">
+            <option>—</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+          </select>
+          <select class="form-select" aria-label="Unir ajo">
+            <option>—</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+          </select>
+          <select class="form-select" aria-label="Unir uva">
+            <option>—</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+          </select>
+        </div>
+        <div class="match-col">
+          <span class="small text-muted text-center">Dibujo</span>
+          <div class="match-item" style="font-size: 2.5rem">🧄</div>
+          <div class="match-item" style="font-size: 2.5rem">🍇</div>
+          <div class="match-item" style="font-size: 2.5rem">🐻</div>
+        </div>
+      </div>
+
+      <p class="small text-muted mt-3 mb-0">
+        Los dibujos finales pueden ser ilustraciones PNG/SVG en lugar de emoji.
+      </p>
+
+      <div class="d-grid gap-2 mt-4" style="max-width: 280px">
+        <button type="button" class="btn btn-primary btn-lg" disabled>Comprobar (maqueta)</button>
+      </div>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

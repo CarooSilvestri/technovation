@@ -1,0 +1,18 @@
+{
+  "name": "Letritas — Aprender jugando",
+  "short_name": "Letritas",
+  "description": "Actividades de lectoescritura adaptadas",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#6c757d",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

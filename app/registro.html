@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!-- app/registro.html — Registro por pasos: nombre, edad, dificultad, foto de perfil. -->
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#6c757d" />
+    <title>Letritas — Registro</title>
+    <link rel="manifest" href="manifest.json" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <link href="css/styles.css" rel="stylesheet" />
+  </head>
+  <body data-registro>
+    <nav class="navbar navbar-expand-lg bg-white app-navbar">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">Letritas</a>
+        <a class="nav-link ms-auto" href="index.html">Volver al inicio</a>
+      </div>
+    </nav>
+
+    <main class="container py-4 py-md-5" style="max-width: 520px">
+      <h1 class="h3 text-center mb-4">Crear perfil</h1>
+
+      <div class="d-flex align-items-center justify-content-center mb-4 app-step-indicator">
+        <span class="step active" data-step-dot>1</span>
+        <span class="line"></span>
+        <span class="step" data-step-dot>2</span>
+        <span class="line"></span>
+        <span class="step" data-step-dot>3</span>
+        <span class="line"></span>
+        <span class="step" data-step-dot>4</span>
+      </div>
+
+      <form class="card app-card p-4" action="#" method="get" onsubmit="return false;">
+        <div data-step>
+          <label class="form-label fw-semibold" for="nombre">¿Cómo te llamás?</label>
+          <input
+            type="text"
+            class="form-control form-control-lg"
+            id="nombre"
+            name="nombre"
+            placeholder="Tu nombre"
+            autocomplete="name"
+          />
+        </div>
+
+        <div data-step hidden>
+          <label class="form-label fw-semibold" for="edad">¿Cuántos años tenés?</label>
+          <input
+            type="number"
+            class="form-control form-control-lg"
+            id="edad"
+            name="edad"
+            min="3"
+            max="18"
+            placeholder="Edad"
+            inputmode="numeric"
+          />
+        </div>
+
+        <div data-step hidden>
+          <p class="fw-semibold mb-3">Elegí la dificultad</p>
+          <div class="d-grid gap-2">
+            <label class="btn btn-outline-secondary btn-lg text-start">
+              <input type="radio" name="dificultad" value="facil" class="me-2" checked />
+              Fácil — solo vocales (A, E, I, O, U)
+            </label>
+            <label class="btn btn-outline-secondary btn-lg text-start">
+              <input type="radio" name="dificultad" value="intermedio" class="me-2" />
+              Intermedio — vocales + consonantes fáciles
+            </label>
+            <label class="btn btn-outline-secondary btn-lg text-start">
+              <input type="radio" name="dificultad" value="dificil" class="me-2" />
+              Difícil — todo el abecedario
+            </label>
+          </div>
+        </div>
+
+        <div data-step hidden>
+          <p class="fw-semibold mb-3">Elegí tu foto de perfil (animalito)</p>
+          <div class="row g-2">
+            <div class="col-4">
+              <div class="avatar-pick selected text-center" role="button" tabindex="0">
+                <div class="emoji-wrap">🐻</div>
+                <span class="small d-block mt-1">Oso</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="avatar-pick text-center" role="button" tabindex="0">
+                <div class="emoji-wrap">🐰</div>
+                <span class="small d-block mt-1">Conejo</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="avatar-pick text-center" role="button" tabindex="0">
+                <div class="emoji-wrap">🦊</div>
+                <span class="small d-block mt-1">Zorro</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="avatar-pick text-center" role="button" tabindex="0">
+                <div class="emoji-wrap">🐸</div>
+                <span class="small d-block mt-1">Rana</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="avatar-pick text-center" role="button" tabindex="0">
+                <div class="emoji-wrap">🐧</div>
+                <span class="small d-block mt-1">Pingüino</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="avatar-pick text-center" role="button" tabindex="0">
+                <div class="emoji-wrap">🐝</div>
+                <span class="small d-block mt-1">Abeja</span>
+              </div>
+            </div>
+          </div>
+          <p class="small text-muted mt-3 mb-0">
+            Maquetación: después se pueden cambiar ilustraciones por dibujos propios.
+          </p>
+        </div>
+
+        <div class="d-flex gap-2 mt-4 pt-2 border-top">
+          <button type="button" class="btn btn-outline-secondary" data-registro-prev hidden>
+            Atrás
+          </button>
+          <button type="button" class="btn btn-primary ms-auto" data-registro-next>
+            Siguiente
+          </button>
+          <button type="button" class="btn btn-success ms-auto" data-registro-submit hidden>
+            Guardar perfil
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

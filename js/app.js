@@ -6,20 +6,19 @@
   function initInicio() {
     var body = document.body;
     if (!body || !body.hasAttribute("data-inicio")) return;
-    var el = document.querySelector("[data-perfil-resumen]");
-    if (!el) return;
+    var nombreEl = document.querySelector("[data-home-nombre]");
+    var emojiEl = document.querySelector("[data-home-emoji]");
+    if (!nombreEl && !emojiEl) return;
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      var p = JSON.parse(raw);
-      if (p && p.nombre) {
-        el.textContent =
-          "Hola, " +
-          p.nombre +
-          (p.avatarEmoji ? " " + p.avatarEmoji : "") +
-          ". Listo/a para seguir jugando.";
-      }
-    } catch (e) {}
+      var p = raw ? JSON.parse(raw) : null;
+      var n = p && p.nombre && String(p.nombre).trim();
+      if (nombreEl) nombreEl.textContent = n || "explorador";
+      if (emojiEl) emojiEl.textContent = (p && p.avatarEmoji) || "🐰";
+    } catch (e) {
+      if (nombreEl) nombreEl.textContent = "explorador";
+      if (emojiEl) emojiEl.textContent = "🐰";
+    }
   }
 
   function initRegistro() {
@@ -33,11 +32,62 @@
     var btnSubmit = document.querySelector("[data-registro-submit]");
     var nombreInput = document.getElementById("nombre");
     var edadInput = document.getElementById("edad");
+    var edadGrid = document.querySelector("[data-edad-grid]");
 
     if (!steps.length || !btnNext) return;
 
     var current = 0;
     var total = steps.length;
+    var EDAD_MIN = 3;
+    var EDAD_MAX = 18;
+    var EDAD_DEFAULT = 6;
+
+    function syncEdadChips() {
+      var sel = parseInt(edadInput && edadInput.value, 10);
+      if (Number.isNaN(sel)) sel = EDAD_DEFAULT;
+      document.querySelectorAll(".app-edad-pill-wrap").forEach(function (wrap) {
+        var chip = wrap.querySelector(".app-edad-chip");
+        if (!chip) return;
+        var n = parseInt(chip.getAttribute("data-edad"), 10);
+        var on = n === sel;
+        chip.classList.toggle("is-selected", on);
+        wrap.classList.toggle("is-selected", on);
+        chip.setAttribute("aria-pressed", on ? "true" : "false");
+        chip.setAttribute("aria-checked", on ? "true" : "false");
+      });
+    }
+
+    function setEdadValue(n) {
+      var v = Math.max(EDAD_MIN, Math.min(EDAD_MAX, parseInt(n, 10) || EDAD_DEFAULT));
+      if (edadInput) edadInput.value = String(v);
+      syncEdadChips();
+    }
+
+    function buildEdadGrid() {
+      if (!edadGrid || edadGrid.querySelector(".app-edad-chip")) return;
+      var a;
+      for (a = EDAD_MIN; a <= EDAD_MAX; a++) {
+        (function (age) {
+          var wrap = document.createElement("div");
+          wrap.className = "app-edad-pill-wrap";
+          var chip = document.createElement("button");
+          chip.type = "button";
+          chip.className = "app-edad-chip";
+          chip.setAttribute("data-edad", String(age));
+          chip.setAttribute("role", "radio");
+          chip.setAttribute("aria-label", age + " años");
+          chip.textContent = String(age);
+          chip.addEventListener("click", function () {
+            setEdadValue(age);
+          });
+          wrap.appendChild(chip);
+          edadGrid.appendChild(wrap);
+        })(a);
+      }
+      setEdadValue((edadInput && edadInput.value) || EDAD_DEFAULT);
+    }
+
+    buildEdadGrid();
 
     function showStep(index) {
       current = Math.max(0, Math.min(index, total - 1));
@@ -86,8 +136,8 @@
       if (index === 1) {
         var raw = edadInput && edadInput.value;
         var edad = parseInt(raw, 10);
-        if (Number.isNaN(edad) || edad < 3 || edad > 18) {
-          if (edadInput) edadInput.focus();
+        if (Number.isNaN(edad) || edad < EDAD_MIN || edad > EDAD_MAX) {
+          setEdadValue(EDAD_DEFAULT);
           return false;
         }
         return true;
@@ -150,6 +200,19 @@
       });
     });
 
+    function syncNivelCards() {
+      document.querySelectorAll(".app-nivel-card").forEach(function (card) {
+        var inp = card.querySelector('input[name="dificultad"]');
+        if (!inp) return;
+        card.classList.toggle("is-selected", inp.checked);
+      });
+    }
+
+    document.querySelectorAll('input[name="dificultad"]').forEach(function (r) {
+      r.addEventListener("change", syncNivelCards);
+    });
+    syncNivelCards();
+
     showStep(0);
   }
 
@@ -161,6 +224,17 @@
       return p && typeof p === "object" ? p : null;
     } catch (e) {
       return null;
+    }
+  }
+
+  /** Modo blanco y negro global (persistido en perfil). */
+  function applyBwMode() {
+    var root = document.documentElement;
+    try {
+      var p = loadProfile();
+      root.classList.toggle("letritas-bw-on", !!(p && p.bw));
+    } catch (e) {
+      root.classList.remove("letritas-bw-on");
     }
   }
 
@@ -218,9 +292,9 @@
       bwEl.checked = !!p.bw;
       bwEl.addEventListener("change", function () {
         saveProfile({ bw: bwEl.checked });
-        body.classList.toggle("app-perfil-bw-on", bwEl.checked);
+        applyBwMode();
       });
-      body.classList.toggle("app-perfil-bw-on", bwEl.checked);
+      applyBwMode();
     }
 
     if (soundEl) {
@@ -285,12 +359,14 @@
         try {
           localStorage.removeItem(STORAGE_KEY);
         } catch (e) {}
+        document.documentElement.classList.remove("letritas-bw-on");
         window.location.href = "index.html";
       });
     }
   }
 
   function boot() {
+    applyBwMode();
     initInicio();
     initRegistro();
     initPerfil();

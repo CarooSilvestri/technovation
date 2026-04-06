@@ -8,6 +8,9 @@
   const select = document.getElementById("letraElegida");
   const btnClear = document.getElementById("btnLimpiar");
   const btnSound = document.getElementById("btnSonidoLetra");
+  const btnNext = document.getElementById("btnSiguiente");
+  const btnVoice = document.getElementById("btnVozSiguiente");
+  const status = document.getElementById("estadoJuego");
 
   if (!canvas || !guide) return;
 
@@ -27,6 +30,17 @@
     spanMin.style.fontSize = "0.65em";
     spanMin.textContent = lower;
     guide.append(spanMay, spanMin);
+  }
+
+  const letras = (window.LetritasGames && window.LetritasGames.letters) || ["A", "E", "I", "O", "U"];
+  if (select) {
+    select.innerHTML = "";
+    letras.forEach((l) => {
+      const op = document.createElement("option");
+      op.value = l;
+      op.textContent = `${l} ${l.toLowerCase()}`;
+      select.appendChild(op);
+    });
   }
 
   select?.addEventListener("change", setGuideFromSelect);
@@ -78,8 +92,32 @@
   });
 
   btnSound?.addEventListener("click", () => {
-    // Maqueta: sin archivo de audio; en producción: Audio() o Web Speech API
+    const letra = select?.value || "A";
+    const ok = window.LetritasGames && window.LetritasGames.speak
+      ? window.LetritasGames.speak(`Letra ${letra}`)
+      : false;
+    if (status) {
+      status.textContent = ok ? "Sonido reproducido." : "Sonido desactivado o no disponible.";
+    }
     btnSound.classList.add("active");
     setTimeout(() => btnSound.classList.remove("active"), 200);
   });
+
+  btnNext?.addEventListener("click", () => {
+    if (!select) return;
+    const cur = select.value || "A";
+    const next = window.LetritasGames && window.LetritasGames.nextLetter
+      ? window.LetritasGames.nextLetter(cur)
+      : cur;
+    select.value = next;
+    setGuideFromSelect();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (status) status.textContent = `Siguiente letra: ${next}`;
+  });
+
+  if (window.LetritasGames && window.LetritasGames.voiceNext) {
+    window.LetritasGames.voiceNext(btnVoice, () => {
+      btnNext?.click();
+    }, status);
+  }
 })();

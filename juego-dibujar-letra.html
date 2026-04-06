@@ -14,7 +14,7 @@
     />
     <link href="css/styles.css" rel="stylesheet" />
   </head>
-  <body>
+  <body data-game="dibujar-letra">
     <nav class="navbar bg-white app-navbar">
       <div class="container">
         <a class="navbar-brand fw-bold" href="index.html">Letritas</a>
@@ -40,9 +40,7 @@
           🔊 Sonido de la letra
         </button>
       </div>
-      <p class="small text-muted">
-        Maqueta: el audio real se conectará después. Aquí solo se muestra el control.
-      </p>
+      <p class="small text-muted">Escucha la letra y trázala en el recuadro.</p>
 
       <div class="trace-area mt-3">
         <div class="trace-guide" aria-hidden="true">
@@ -53,8 +51,12 @@
 
       <div class="d-flex gap-2 mt-3">
         <button type="button" class="btn btn-outline-secondary" id="btnLimpiar">Borrar trazo</button>
-        <button type="button" class="btn btn-primary ms-auto" disabled>Siguiente (maqueta)</button>
+        <button type="button" class="btn btn-primary ms-auto" id="btnSiguiente">Siguiente letra</button>
       </div>
+      <div class="d-grid mt-2">
+        <button type="button" class="btn btn-outline-primary" id="btnVozSiguiente">🎤 Decir "siguiente"</button>
+      </div>
+      <p class="small text-muted mt-2 mb-0" id="estadoJuego"></p>
     </main>
 
     <script
@@ -62,6 +64,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="js/app.js"></script>
+    <script src="js/juegos.js"></script>
     <script src="js/juego-dibujar-letra.js"></script>
   </body>
 </html>

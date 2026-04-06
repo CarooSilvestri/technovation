@@ -14,7 +14,7 @@
     />
     <link href="css/styles.css" rel="stylesheet" />
   </head>
-  <body>
+  <body data-game="unir-dibujos">
     <nav class="navbar bg-white app-navbar">
       <div class="container">
         <a class="navbar-brand fw-bold" href="index.html">Letritas</a>
@@ -24,53 +24,33 @@
 
     <main class="container py-4">
       <h1 class="h4 mb-1">Unir palabra y dibujo</h1>
-      <p class="text-muted small mb-4">
-        Una columna con palabras y otra con dibujos; las flechas del centro son para maquetar la
-        elección (en la app final puede dibujarse la línea).
-      </p>
+      <p class="text-muted small mb-4">Selecciona la unión en el centro.</p>
+      <button type="button" class="btn btn-outline-primary btn-sm mb-3" id="btnEscucharJuego">
+        🔊 Escuchar palabras
+      </button>
 
       <div class="match-columns">
         <div class="match-col">
           <span class="small text-muted text-center">Palabra</span>
-          <div class="match-item" style="font-size: 1.1rem">OSO</div>
-          <div class="match-item" style="font-size: 1.1rem">AJO</div>
-          <div class="match-item" style="font-size: 1.1rem">UVA</div>
+          <div id="listaPalabras"></div>
         </div>
         <div class="match-arrows">
-          <select class="form-select" aria-label="Unir oso">
-            <option>—</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-          </select>
-          <select class="form-select" aria-label="Unir ajo">
-            <option>—</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-          </select>
-          <select class="form-select" aria-label="Unir uva">
-            <option>—</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-          </select>
+          <div id="listaSelects"></div>
         </div>
         <div class="match-col">
           <span class="small text-muted text-center">Dibujo</span>
-          <div class="match-item" style="font-size: 2.5rem">🧄</div>
-          <div class="match-item" style="font-size: 2.5rem">🍇</div>
-          <div class="match-item" style="font-size: 2.5rem">🐻</div>
+          <div id="listaDibujos"></div>
         </div>
       </div>
 
-      <p class="small text-muted mt-3 mb-0">
-        Los dibujos finales pueden ser ilustraciones PNG/SVG en lugar de emoji.
-      </p>
-
       <div class="d-grid gap-2 mt-4" style="max-width: 280px">
-        <button type="button" class="btn btn-primary btn-lg" disabled>Comprobar (maqueta)</button>
+        <button type="button" class="btn btn-primary btn-lg" id="btnComprobar">Comprobar</button>
+        <button type="button" class="btn btn-secondary btn-lg" id="btnSiguiente">Siguiente</button>
       </div>
+      <div class="d-grid mt-2" style="max-width: 280px">
+        <button type="button" class="btn btn-outline-primary" id="btnVozSiguiente">🎤 Decir "siguiente"</button>
+      </div>
+      <p class="small text-muted mt-2 mb-0" id="estadoJuego"></p>
     </main>
 
     <script
@@ -78,5 +58,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="js/app.js"></script>
+    <script src="js/juegos.js"></script>
   </body>
 </html>

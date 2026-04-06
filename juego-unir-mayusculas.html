@@ -14,7 +14,7 @@
     />
     <link href="css/styles.css" rel="stylesheet" />
   </head>
-  <body>
+  <body data-game="unir-mayusculas">
     <nav class="navbar bg-white app-navbar">
       <div class="container">
         <a class="navbar-brand fw-bold" href="index.html">Letritas</a>
@@ -24,75 +24,33 @@
 
     <main class="container py-4">
       <h1 class="h4 mb-1">Unir mayúsculas y minúsculas</h1>
-      <p class="text-muted small mb-4">
-        Dificultad maquetada: <strong>fácil</strong> (A, E, I, O, U). Elegí en el medio a qué
-        letra corresponde cada fila.
-      </p>
+      <p class="text-muted small mb-4">Selecciona la minúscula para cada mayúscula.</p>
+      <button type="button" class="btn btn-outline-primary btn-sm mb-3" id="btnEscucharJuego">
+        🔊 Escuchar letras
+      </button>
 
       <div class="match-columns">
         <div class="match-col">
           <span class="small text-muted text-center">Mayúsculas</span>
-          <div class="match-item">A</div>
-          <div class="match-item">E</div>
-          <div class="match-item">I</div>
-          <div class="match-item">O</div>
-          <div class="match-item">U</div>
+          <div id="listaMayusculas"></div>
         </div>
         <div class="match-arrows">
-          <select class="form-select" aria-label="Unir fila 1">
-            <option>—</option>
-            <option>a</option>
-            <option>e</option>
-            <option>i</option>
-            <option>o</option>
-            <option>u</option>
-          </select>
-          <select class="form-select" aria-label="Unir fila 2">
-            <option>—</option>
-            <option>a</option>
-            <option>e</option>
-            <option>i</option>
-            <option>o</option>
-            <option>u</option>
-          </select>
-          <select class="form-select" aria-label="Unir fila 3">
-            <option>—</option>
-            <option>a</option>
-            <option>e</option>
-            <option>i</option>
-            <option>o</option>
-            <option>u</option>
-          </select>
-          <select class="form-select" aria-label="Unir fila 4">
-            <option>—</option>
-            <option>a</option>
-            <option>e</option>
-            <option>i</option>
-            <option>o</option>
-            <option>u</option>
-          </select>
-          <select class="form-select" aria-label="Unir fila 5">
-            <option>—</option>
-            <option>a</option>
-            <option>e</option>
-            <option>i</option>
-            <option>o</option>
-            <option>u</option>
-          </select>
+          <div id="listaSelectsLetras"></div>
         </div>
         <div class="match-col">
-          <span class="small text-muted text-center">Minúsculas (orden mezclado en el juego real)</span>
-          <div class="match-item">o</div>
-          <div class="match-item">u</div>
-          <div class="match-item">a</div>
-          <div class="match-item">e</div>
-          <div class="match-item">i</div>
+          <span class="small text-muted text-center">Minúsculas</span>
+          <div id="listaMinusculas"></div>
         </div>
       </div>
 
       <div class="d-grid gap-2 mt-4" style="max-width: 280px">
-        <button type="button" class="btn btn-primary btn-lg" disabled>Comprobar (maqueta)</button>
+        <button type="button" class="btn btn-primary btn-lg" id="btnComprobar">Comprobar</button>
+        <button type="button" class="btn btn-secondary btn-lg" id="btnSiguiente">Siguiente</button>
       </div>
+      <div class="d-grid mt-2" style="max-width: 280px">
+        <button type="button" class="btn btn-outline-primary" id="btnVozSiguiente">🎤 Decir "siguiente"</button>
+      </div>
+      <p class="small text-muted mt-2 mb-0" id="estadoJuego"></p>
     </main>
 
     <script
@@ -100,5 +58,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="js/app.js"></script>
+    <script src="js/juegos.js"></script>
   </body>
 </html>

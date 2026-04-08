@@ -1,33 +1,51 @@
-/* Letritas — paleta: #F5F5F3 #E5C1CD #B4CFB0 #8FB1CC */
+/* letro — paleta: #F5F5F3 #E5C1CD #B4CFB0 #8FB1CC */
 
 :root {
-  --letritas-bg: #f5f5f3;
-  --letritas-pink: #e5c1cd;
-  --letritas-green: #b4cfb0;
-  --letritas-blue: #8fb1cc;
-  --letritas-ink: #2d3540;
-  --letritas-muted: #6b7280;
+  --letro-bg: #f5f5f3;
+  --letro-pink: #e5c1cd;
+  --letro-green: #b4cfb0;
+  --letro-blue: #8fb1cc;
+  --letro-ink: #2d3540;
+  --letro-muted: #6b7280;
+
   /* Botón / barra activa: pizarra (derivada de la gama, contraste legible) */
-  --letritas-slate: #4a677d;
-  --letritas-slate-hover: #3d5668;
-  --letritas-avatar-gray: #d4d4cf;
-  --letritas-primary: #4a677d;
-  --letritas-primary-hover: #3d5668;
-  --letritas-surface: #ffffff;
-  --letritas-shadow: 0 4px 20px rgba(45, 53, 64, 0.06);
-  --letritas-shadow-sm: 0 2px 8px rgba(45, 53, 64, 0.08);
+  --letro-slate: #4a677d;
+  --letro-slate-hover: #3d5668;
+  --letro-avatar-gray: #d4d4cf;
+  --letro-primary: #4a677d;
+  --letro-primary-hover: #3d5668;
+  --letro-surface: #ffffff;
+  --letro-shadow: 0 4px 20px rgba(45, 53, 64, 0.06);
+  --letro-shadow-sm: 0 2px 8px rgba(45, 53, 64, 0.08);
 
   --bs-primary: #4a677d;
   --bs-primary-rgb: 74, 103, 125;
-  --bs-body-bg: var(--letritas-bg);
-  --bs-body-color: var(--letritas-ink);
+  --bs-body-bg: var(--letro-bg);
+  --bs-body-color: var(--letro-ink);
   --bs-border-radius: 1rem;
   --bs-border-radius-lg: 1.25rem;
   --bs-border-radius-xl: 1.5rem;
+
+  --letro-radius-sm: 0.75rem;
+  --letro-radius-md: 1rem;
+  --letro-radius-lg: 1.5rem;
+  --letro-ring: 0 0 0 3px rgba(143, 177, 204, 0.45);
+
+  --letro-text-xs: 0.78rem;
+  --letro-text-sm: 0.88rem;
+  --letro-text-md: 1rem;
+  --letro-text-lg: 1.125rem;
+
+  --letro-h1: clamp(1.8rem, 1.35rem + 2.2vw, 2.5rem);
+  --letro-h2: clamp(1.3rem, 1.1rem + 1.2vw, 1.75rem);
+  --letro-h3: 1.25rem;
+  --letro-h4: 1.125rem;
+  --letro-h5: 1rem;
+  --letro-h6: 0.92rem;
 }
 
 body {
-  background-color: var(--letritas-bg);
+  background-color: var(--letro-bg);
   background-image: radial-gradient(
     ellipse 120% 80% at 50% -20%,
     rgba(143, 177, 204, 0.18),
@@ -39,6 +57,142 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+
+/* ---------------- GENERAL ---------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(229, 193, 205, 0.55);
+}
+
+:where(img, svg, video, canvas) {
+  max-width: 100%;
+  height: auto;
+}
+
+:where(a) {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 0.18em;
+}
+
+:where(a:hover) {
+  color: var(--letro-primary);
+  text-decoration: underline;
+}
+
+:where(a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible) {
+  outline: none;
+  box-shadow: var(--letro-ring);
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+  font-family: "Quicksand", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--letro-ink);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 0.6rem;
+}
+
+h1 {
+  font-size: var(--letro-h1);
+  font-weight: 800;
+  color: var(--letro-primary);
+}
+
+h2 {
+  font-size: var(--letro-h2);
+  font-weight: 800;
+}
+
+h3 {
+  font-size: var(--letro-h3);
+  font-weight: 700;
+}
+
+h4 {
+  font-size: var(--letro-h4);
+  font-weight: 700;
+}
+
+h5 {
+  font-size: var(--letro-h5);
+  font-weight: 700;
+}
+
+h6 {
+  font-size: var(--letro-h6);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+p {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  color: var(--letro-ink);
+  line-height: 1.5;
+  margin: 0 0 1rem;
+}
+
+:where(small) {
+  font-size: var(--letro-text-xs);
+  color: var(--letro-muted);
+}
+
+:where(ul, ol) {
+  margin: 0 0 1rem;
+}
+
+:where(hr) {
+  border: 0;
+  border-top: 1px solid rgba(45, 53, 64, 0.1);
+  margin: 1rem 0;
+}
+
+/* Controles base (no pisan tus variantes específicas con [data-*]). */
+:where(button) {
+  font: inherit;
+}
+
+:where(.btn) {
+  border-radius: 999px;
+}
+
+:where(.btn-primary) {
+  --bs-btn-bg: var(--letro-primary);
+  --bs-btn-border-color: var(--letro-primary);
+  --bs-btn-hover-bg: var(--letro-primary-hover);
+  --bs-btn-hover-border-color: var(--letro-primary-hover);
+  --bs-btn-active-bg: var(--letro-primary-hover);
+  --bs-btn-active-border-color: var(--letro-primary-hover);
+}
+
+:where(.form-control, .form-select) {
+  border-radius: 999px;
+}
+
+:where(.form-control:focus, .form-select:focus) {
+  border-color: rgba(143, 177, 204, 0.65);
+  box-shadow: var(--letro-ring);
+}
+
+
+/* ---------------- SPLASH ---------------- */
+.app-splash {
+  background:
+    radial-gradient(900px 520px at 10% 8%, rgba(229, 193, 205, 0.45), transparent 55%),
+    radial-gradient(760px 520px at 92% 18%, rgba(143, 177, 204, 0.42), transparent 58%),
+    radial-gradient(820px 560px at 50% 96%, rgba(180, 207, 176, 0.45), transparent 60%),
+    linear-gradient(180deg, #fbfcff 0%, #f1f4f8 65%, #eef2f6 100%);
+}
+
+
+
 .app-navbar {
   background: rgba(245, 245, 243, 0.92) !important;
   backdrop-filter: blur(8px);
@@ -49,7 +203,7 @@ body {
 
 .app-navbar .navbar-brand,
 .app-navbar .nav-link {
-  color: var(--letritas-ink) !important;
+  color: var(--letro-ink) !important;
 }
 
 .app-navbar .nav-link {
@@ -59,13 +213,13 @@ body {
 
 .app-navbar .nav-link:hover {
   opacity: 1;
-  color: var(--letritas-primary) !important;
+  color: var(--letro-primary) !important;
 }
 
 .app-card {
   border: none;
-  background: var(--letritas-surface);
-  box-shadow: var(--letritas-shadow);
+  background: var(--letro-surface);
+  box-shadow: var(--letro-shadow);
   border-radius: 1.5rem;
 }
 
@@ -81,7 +235,7 @@ body[data-registro] {
 }
 
 .app-registro-header {
-  background: var(--letritas-bg);
+  background: var(--letro-bg);
   padding-top: 0.5rem;
 }
 
@@ -99,42 +253,42 @@ body[data-registro] {
   align-items: center;
   gap: 0.65rem;
   text-decoration: none;
-  color: var(--letritas-ink);
+  color: var(--letro-ink);
 }
 
 .app-registro-brand:hover {
-  color: var(--letritas-slate);
+  color: var(--letro-slate);
 }
 
 .app-registro-logo-badge {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  background: var(--letritas-blue);
+  background: var(--letro-blue);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 1.1rem;
   line-height: 1;
-  box-shadow: var(--letritas-shadow-sm);
+  box-shadow: var(--letro-shadow-sm);
 }
 
 .app-registro-brand-text {
   font-weight: 700;
   font-size: 1.125rem;
   letter-spacing: -0.02em;
-  color: var(--letritas-ink);
+  color: var(--letro-ink);
 }
 
 .app-registro-back {
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--letritas-muted);
+  color: var(--letro-muted);
   text-decoration: none;
 }
 
 .app-registro-back:hover {
-  color: var(--letritas-slate);
+  color: var(--letro-slate);
 }
 
 .app-step-bars {
@@ -154,7 +308,7 @@ body[data-registro] {
 }
 
 .app-step-bars .step-bar.active {
-  background: var(--letritas-slate);
+  background: var(--letro-slate);
 }
 
 .app-registro-main {
@@ -170,7 +324,7 @@ body[data-registro] {
 .app-registro-question {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--letritas-ink);
+  color: var(--letro-ink);
   letter-spacing: -0.02em;
   margin-bottom: 1.25rem;
   text-align: center;
@@ -184,7 +338,7 @@ body[data-registro] .app-registro-question--edad {
 .app-registro-subtitle {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--letritas-ink);
+  color: var(--letro-ink);
   margin-top: 1.75rem;
   margin-bottom: 1rem;
   text-align: center;
@@ -198,13 +352,13 @@ body[data-registro] .app-registro-question--edad {
   padding: 0.9rem 1.35rem;
   text-align: center;
   font-size: 1.05rem;
-  color: var(--letritas-ink);
+  color: var(--letro-ink);
   box-shadow: inset 0 1px 2px rgba(45, 53, 64, 0.06);
   transition: background 0.2s, box-shadow 0.2s;
 }
 
 [data-registro] .app-registro-input::placeholder {
-  color: var(--letritas-muted);
+  color: var(--letro-muted);
   opacity: 0.9;
 }
 
@@ -323,7 +477,7 @@ body[data-registro] .app-registro-question--edad {
 [data-registro] .app-nivel-subtitle {
   text-align: center;
   font-size: 0.9rem;
-  color: var(--letritas-muted);
+  color: var(--letro-muted);
   line-height: 1.45;
   margin-bottom: 1.5rem;
   max-width: 22rem;
@@ -469,7 +623,7 @@ body[data-registro] .app-registro-question--edad {
   text-align: center;
   font-size: 0.72rem;
   font-weight: 500;
-  color: var(--letritas-muted);
+  color: var(--letro-muted);
   margin-top: 1.35rem;
   margin-bottom: 0;
   line-height: 1.45;
@@ -499,7 +653,7 @@ body[data-registro] .app-registro-question--edad {
 [data-registro] label.app-registro-radio {
   border-radius: 50px;
   border: 1px solid rgba(45, 53, 64, 0.1);
-  color: var(--letritas-ink);
+  color: var(--letro-ink);
   background: #e8e8e4;
   font-weight: 500;
   padding-top: 0.85rem;
@@ -513,13 +667,13 @@ body[data-registro] .app-registro-question--edad {
 }
 
 [data-registro] label.app-registro-radio:has(input:checked) {
-  border-color: var(--letritas-blue);
+  border-color: var(--letro-blue);
   background: rgba(143, 177, 204, 0.2);
-  box-shadow: var(--letritas-shadow-sm);
+  box-shadow: var(--letro-shadow-sm);
 }
 
 [data-registro] label.app-registro-radio input {
-  accent-color: var(--letritas-slate);
+  accent-color: var(--letro-slate);
 }
 
 [data-registro] .app-avatar-grid .avatar-pick {
@@ -540,38 +694,38 @@ body[data-registro] .app-registro-question--edad {
 }
 
 [data-registro] .app-avatar-grid .col-6:nth-child(1) .avatar-pick {
-  background: var(--letritas-blue);
+  background: var(--letro-blue);
 }
 
 [data-registro] .app-avatar-grid .col-6:nth-child(2) .avatar-pick {
-  background: var(--letritas-green);
+  background: var(--letro-green);
 }
 
 [data-registro] .app-avatar-grid .col-6:nth-child(3) .avatar-pick {
-  background: var(--letritas-pink);
+  background: var(--letro-pink);
 }
 
 [data-registro] .app-avatar-grid .col-6:nth-child(4) .avatar-pick {
-  background: var(--letritas-avatar-gray);
+  background: var(--letro-avatar-gray);
 }
 
 [data-registro] .app-avatar-grid .col-6:nth-child(5) .avatar-pick {
-  background: var(--letritas-blue);
+  background: var(--letro-blue);
 }
 
 [data-registro] .app-avatar-grid .col-6:nth-child(6) .avatar-pick {
-  background: var(--letritas-green);
+  background: var(--letro-green);
 }
 
 [data-registro] .avatar-pick:hover,
 [data-registro] .avatar-pick:focus-visible {
   outline: none;
   transform: scale(1.03);
-  box-shadow: var(--letritas-shadow-sm);
+  box-shadow: var(--letro-shadow-sm);
 }
 
 [data-registro] .avatar-pick.selected {
-  border-color: var(--letritas-slate);
+  border-color: var(--letro-slate);
   box-shadow: 0 0 0 2px #fff, 0 4px 14px rgba(74, 103, 125, 0.28);
 }
 
@@ -582,7 +736,7 @@ body[data-registro] .app-registro-question--edad {
 }
 
 [data-registro] .avatar-pick .small {
-  color: var(--letritas-ink);
+  color: var(--letro-ink);
   font-weight: 600;
   font-size: 0.72rem;
   margin-top: 0.4rem !important;
@@ -607,16 +761,16 @@ body[data-registro] .app-registro-question--edad {
   font-size: 1.05rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  box-shadow: var(--letritas-shadow-sm);
+  box-shadow: var(--letro-shadow-sm);
 }
 
 .app-registro-footer .btn-primary {
-  --bs-btn-bg: var(--letritas-slate);
-  --bs-btn-border-color: var(--letritas-slate);
-  --bs-btn-hover-bg: var(--letritas-slate-hover);
-  --bs-btn-hover-border-color: var(--letritas-slate-hover);
-  --bs-btn-active-bg: var(--letritas-slate-hover);
-  --bs-btn-active-border-color: var(--letritas-slate-hover);
+  --bs-btn-bg: var(--letro-slate);
+  --bs-btn-border-color: var(--letro-slate);
+  --bs-btn-hover-bg: var(--letro-slate-hover);
+  --bs-btn-hover-border-color: var(--letro-slate-hover);
+  --bs-btn-active-bg: var(--letro-slate-hover);
+  --bs-btn-active-border-color: var(--letro-slate-hover);
   color: #fff;
 }
 
@@ -632,12 +786,12 @@ body[data-registro] .app-registro-question--edad {
   padding-left: 1.15rem;
   padding-right: 1.15rem;
   border-color: rgba(45, 53, 64, 0.2);
-  color: var(--letritas-ink);
+  color: var(--letro-ink);
 }
 
 .app-registro-footer .btn-outline-secondary[data-registro-prev]:hover {
   background: rgba(143, 177, 204, 0.18);
-  border-color: var(--letritas-blue);
+  border-color: var(--letro-blue);
 }
 
 .app-registro-footer .btn-success {
@@ -648,7 +802,7 @@ body[data-registro] .app-registro-question--edad {
 }
 
 [data-registro] .text-muted {
-  color: var(--letritas-muted) !important;
+  color: var(--letro-muted) !important;
 }
 
 /* ——— Inicio (mock: avatar + Hola, tarjetas blancas, círculos #CDEBC5 / #B9D9F2 / #EBCDD5) ——— */
@@ -1217,7 +1371,7 @@ body[data-inicio] {
 }
 
 /* Blanco y negro: todo el sitio (clase en <html>, aplicada desde perfil + localStorage) */
-html.letritas-bw-on {
+html.letro-bw-on {
   filter: grayscale(1) contrast(1.05);
 }
 

@@ -1,7 +1,9 @@
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "letritas_perfil";
+  // js/app.js
+  var STORAGE_KEY =
+    (window.LETRO_CONFIG && window.LETRO_CONFIG.STORAGE_KEY) || "letro_user";
 
   function initInicio() {
     var body = document.body;

@@ -1,20 +1,21 @@
 (function () {
   "use strict";
 
-  // js/app.js
   var STORAGE_KEY =
     (window.LETRO_CONFIG && window.LETRO_CONFIG.STORAGE_KEY) || "letro_user";
 
   function initInicio() {
     var body = document.body;
     if (!body || !body.hasAttribute("data-inicio")) return;
-    var nombreEl = document.querySelector("[data-home-nombre]");
     var emojiEl = document.querySelector("[data-home-emoji]");
     if (!nombreEl && !emojiEl) return;
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       var p = raw ? JSON.parse(raw) : null;
-      var n = p && p.nombre && String(p.nombre).trim();
+      var n =
+        typeof getNombre === "function"
+          ? getNombre() || (p && p.nombre && String(p.nombre).trim())
+          : p && p.nombre && String(p.nombre).trim();
       if (nombreEl) nombreEl.textContent = n || "explorador";
       if (emojiEl) emojiEl.textContent = (p && p.avatarEmoji) || "🐰";
     } catch (e) {

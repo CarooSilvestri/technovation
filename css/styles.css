@@ -18,6 +18,14 @@
   --letro-shadow: 0 4px 20px rgba(45, 53, 64, 0.06);
   --letro-shadow-sm: 0 2px 8px rgba(45, 53, 64, 0.08);
 
+  --home-ink: #1e3a5f;
+  --home-muted: #6b7c8f;
+  --home-avatar-bg: #CDEBC5;
+  --home-circle-green: #CDEBC5;
+  --home-circle-blue: #b9d9f2;
+  --home-circle-pink: #ebcdd5;
+  --home-circle-sage: #b8cfae; 
+
   --bs-primary: #4a677d;
   --bs-primary-rgb: 74, 103, 125;
   --bs-body-bg: var(--letro-bg);
@@ -42,6 +50,8 @@
   --letro-h4: 1.125rem;
   --letro-h5: 1rem;
   --letro-h6: 0.92rem;
+
+  
 }
 
 body {
@@ -70,15 +80,9 @@ body {
   background: rgba(229, 193, 205, 0.55);
 }
 
-:where(img, svg, video, canvas) {
-  max-width: 100%;
-  height: auto;
-}
-
-:where(a) {
+a {
   color: inherit;
   text-decoration: none;
-  text-underline-offset: 0.18em;
 }
 
 :where(a:hover) {
@@ -91,12 +95,12 @@ body {
   box-shadow: var(--letro-ring);
 }
 
-:where(h1, h2, h3, h4, h5, h6) {
+h1, h2, h3, h4, h5, h6 {
   font-family: "Quicksand", system-ui, -apple-system, "Segoe UI", sans-serif;
   color: var(--letro-ink);
   letter-spacing: -0.02em;
   line-height: 1.15;
-  margin: 0 0 0.6rem;
+  margin: 0;
 }
 
 h1 {
@@ -191,6 +195,175 @@ p {
     linear-gradient(180deg, #fbfcff 0%, #f1f4f8 65%, #eef2f6 100%);
 }
 
+
+/* ---------------- HOME ---------------- */
+.app-home-header {
+  background: var(--letro-bg);
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(30, 58, 95, 0.12);
+}
+
+.app-home-avatar {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--home-avatar-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+
+[data-inicio] .app-home-settings {
+  flex-shrink: 0;
+  width: 2.65rem;
+  height: 2.65rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--home-ink);
+  background: #e8ecf0;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+[data-inicio] .app-home-settings:hover {
+  background: #dde3ea;
+}
+
+[data-inicio] .app-home-settings:active {
+  transform: scale(0.96);
+}
+
+[data-inicio] .app-home-settings-ico {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+[data-inicio] .app-home-main {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0.75rem 1.15rem 2.5rem;
+}
+
+[data-inicio] .app-home-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--home-ink);
+  text-align: center;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+[data-inicio] .app-home-lead {
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--home-muted);
+  line-height: 1.45;
+  margin: 0 auto 1.5rem;
+  max-width: 22rem;
+}
+
+[data-inicio] .app-home-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+[data-inicio] .app-home-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.95rem 1rem;
+  border-radius: 1.2rem;
+  background: #fff;
+  text-decoration: none;
+  box-shadow: 0 3px 14px rgba(30, 58, 95, 0.07);
+  border: 1px solid rgba(30, 58, 95, 0.05);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+[data-inicio] .app-home-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(30, 58, 95, 0.1);
+}
+
+[data-inicio] .app-home-card:active {
+  transform: translateY(0);
+}
+
+[data-inicio] .app-home-card-icon {
+  flex-shrink: 0;
+  width: 2.85rem;
+  height: 2.85rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+[data-inicio] .app-home-card-icon--green {
+  background: #CDEBC5;
+}
+
+[data-inicio] .app-home-card-icon--blue {
+  background: #b9d9f2;
+}
+
+[data-inicio] .app-home-card-icon--pink {
+  background: #ebcdd5;
+}
+
+[data-inicio] .app-home-card-icon--sage {
+  background: #b8cfae;
+}
+
+[data-inicio] .app-home-card-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+[data-inicio] .app-home-card-title {
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--home-ink);
+  line-height: 1.25;
+}
+
+[data-inicio] .app-home-card-desc {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--home-muted);
+  line-height: 1.35;
+}
+
+[data-inicio] .app-home-card-chevron {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #c5cdd6;
+  line-height: 1;
+}
+
+[data-inicio] .app-home-card:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(143, 177, 204, 0.45), 0 3px 14px rgba(30, 58, 95, 0.07);
+}
 
 
 .app-navbar {
@@ -806,216 +979,6 @@ body[data-registro] .app-registro-question--edad {
 }
 
 /* ——— Inicio (mock: avatar + Hola, tarjetas blancas, círculos #CDEBC5 / #B9D9F2 / #EBCDD5) ——— */
-body[data-inicio] {
-  --home-ink: #1e3a5f;
-  --home-muted: #6b7c8f;
-  --home-avatar-bg: #CDEBC5;
-  --home-circle-green: #CDEBC5;
-  --home-circle-blue: #b9d9f2;
-  --home-circle-pink: #ebcdd5;
-  --home-circle-sage: #b8cfae;
-  background: #f4f6f8;
-  font-family: "Quicksand", system-ui, -apple-system, "Segoe UI", sans-serif;
-  color: var(--home-ink);
-  min-height: 100vh;
-}
-
-[data-inicio] .app-home-header {
-  background: transparent;
-  padding-top: 0.5rem;
-}
-
-[data-inicio] .app-home-header-inner {
-  max-width: 520px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.85rem 1.15rem 0.5rem;
-}
-
-[data-inicio] .app-home-user {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  min-width: 0;
-}
-
-[data-inicio] .app-home-avatar {
-  flex-shrink: 0;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  background: var(--home-avatar-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.45rem;
-  line-height: 1;
-  box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08);
-}
-
-[data-inicio] .app-home-greeting {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin: 0;
-  color: var(--home-ink);
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-[data-inicio] .app-home-greeting [data-home-nombre] {
-  font-weight: 700;
-}
-
-[data-inicio] .app-home-settings {
-  flex-shrink: 0;
-  width: 2.65rem;
-  height: 2.65rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  color: var(--home-ink);
-  background: #e8ecf0;
-  text-decoration: none;
-  transition: background 0.2s ease, transform 0.15s ease;
-}
-
-[data-inicio] .app-home-settings:hover {
-  background: #dde3ea;
-}
-
-[data-inicio] .app-home-settings:active {
-  transform: scale(0.96);
-}
-
-[data-inicio] .app-home-settings-ico {
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-[data-inicio] .app-home-main {
-  max-width: 520px;
-  margin: 0 auto;
-  padding: 0.75rem 1.15rem 2.5rem;
-}
-
-[data-inicio] .app-home-title {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--home-ink);
-  text-align: center;
-  margin: 0 0 0.5rem;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-}
-
-[data-inicio] .app-home-lead {
-  text-align: center;
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: var(--home-muted);
-  line-height: 1.45;
-  margin: 0 auto 1.5rem;
-  max-width: 22rem;
-}
-
-[data-inicio] .app-home-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-[data-inicio] .app-home-card {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  padding: 0.95rem 1rem;
-  border-radius: 1.2rem;
-  background: #fff;
-  text-decoration: none;
-  box-shadow: 0 3px 14px rgba(30, 58, 95, 0.07);
-  border: 1px solid rgba(30, 58, 95, 0.05);
-  transition: transform 0.15s ease, box-shadow 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-
-[data-inicio] .app-home-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(30, 58, 95, 0.1);
-}
-
-[data-inicio] .app-home-card:active {
-  transform: translateY(0);
-}
-
-[data-inicio] .app-home-card-icon {
-  flex-shrink: 0;
-  width: 2.85rem;
-  height: 2.85rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  line-height: 1;
-}
-
-[data-inicio] .app-home-card-icon--green {
-  background: #CDEBC5;
-}
-
-[data-inicio] .app-home-card-icon--blue {
-  background: #b9d9f2;
-}
-
-[data-inicio] .app-home-card-icon--pink {
-  background: #ebcdd5;
-}
-
-[data-inicio] .app-home-card-icon--sage {
-  background: #b8cfae;
-}
-
-[data-inicio] .app-home-card-main {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-[data-inicio] .app-home-card-title {
-  font-weight: 700;
-  font-size: 1.02rem;
-  color: var(--home-ink);
-  line-height: 1.25;
-}
-
-[data-inicio] .app-home-card-desc {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--home-muted);
-  line-height: 1.35;
-}
-
-[data-inicio] .app-home-card-chevron {
-  flex-shrink: 0;
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: #c5cdd6;
-  line-height: 1;
-}
-
-[data-inicio] .app-home-card:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(143, 177, 204, 0.45), 0 3px 14px rgba(30, 58, 95, 0.07);
-}
 
 /* ——— Perfil (maqueta móvil: #3E5B77, tarjeta gris, niveles por color) ——— */
 [data-perfil] {

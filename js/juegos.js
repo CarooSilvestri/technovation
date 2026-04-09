@@ -5,33 +5,215 @@
   var LETTERS = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,Ñ,O,P,Q,R,S,T,U,V,W,X,Y,Z".split(",");
 
   var WORDS_BY_LETTER = {
-    A: ["avion", "arbol", "abeja", "anillo", "arroz", "ardilla"],
-    B: ["barco", "ballena", "botella", "burro", "biblioteca", "banana"],
-    C: ["casa", "conejo", "cuchara", "camion", "cebra", "cereza"],
-    D: ["dado", "delfin", "dragon", "diente", "durazno", "domador"],
-    E: ["elefante", "escalera", "estrella", "escuela", "escoba", "ensalada"],
-    F: ["flor", "foca", "fruta", "flecha", "faro", "fresa"],
-    G: ["gato", "gallina", "guitarra", "gorra", "globo", "galleta"],
-    H: ["helado", "hormiga", "hospital", "hacha", "hilo", "humo"],
-    I: ["isla", "iguana", "iman", "iglesia", "incendio", "idea"],
-    J: ["jirafa", "juguete", "jabon", "jardin", "jarra", "jamon"],
+    A: ["avion", "arbol", "abeja", "agua", "ajo", "ala"],
+    B: ["barco", "ballena", "botella", "bota", "bebe", "boca"],
+    C: ["casa", "conejo", "cuchara", "camion", "cebra", "cola"],
+    D: ["dado", "delfin", "dragon", "diente", "dos", "dedo"],
+    E: ["elefante", "escalera", "estrella", "escuela", "escoba", "enfermera"],
+    F: ["flor", "foca", "fruta", "flecha", "faro", "falda"],
+    G: ["gato", "gallina", "guitarra", "gorra", "globo", "gafas"],
+    H: ["helado", "hormiga", "hospital", "hacha", "hilo", "hueso"],
+    I: ["isla", "iguana", "iman", "iglesia", "invierno", "indio"],
+    J: ["jirafa", "juguete", "jabon", "jardin", "jarra", "joven"],
     K: ["kiwi", "koala", "karate", "kimono", "ketchup", "kayak"],
-    L: ["luna", "leon", "lapiz", "libro", "lampara", "lobo"],
+    L: ["luna", "leon", "lapiz", "libro", "lampara", "leche"],
     M: ["mano", "mesa", "mariposa", "montana", "manzana", "mochila"],
-    N: ["nube", "naranja", "nido", "navio", "nariz", "nutria"],
+    N: ["nube", "naranja", "nido", "navio", "nariz", "nene"],
     "Ñ": ["ñandu", "ñoqui", "ñu", "ñora", "ñame", "ñanduti"],
-    O: ["oso", "oveja", "oreja", "oruga", "olla", "oasis"],
+    O: ["oso", "oveja", "oreja", "oruga", "olla", "ojo"],
     P: ["perro", "pelota", "pan", "pajaro", "puente", "pera"],
     Q: ["queso", "quetzal", "quinua", "quiosco", "quena", "quimica"],
     R: ["raton", "reloj", "rana", "rio", "robot", "rueda"],
     S: ["sol", "silla", "sapo", "sombrero", "sandia", "serpiente"],
     T: ["taza", "tiburon", "tren", "tomate", "tortuga", "tambor"],
-    U: ["uva", "uña", "unicornio", "universidad", "urna", "uniforme"],
-    V: ["vaca", "vaso", "ventana", "velero", "violin", "volcan"],
-    W: ["waffle", "waterpolo", "wifi", "web", "wombat", "wakame"],
-    X: ["xilofono", "xilografia", "xenon", "xiloteca", "xerografia", "xifoides"],
-    Y: ["yate", "yema", "yogur", "yoyo", "yuca", "yeso"],
-    Z: ["zapato", "zorro", "zanahoria", "zoologico", "zafiro", "zumo"],
+    U: ["uva", "uña", "uno", "uniforme", "urraca", "utensilio"],
+    V: ["vaca", "vaso", "ventana", "violin", "vela", "viento"],
+    W: ["wagon", "watusi", "wallaby", "weta", "walkie", "whisky"],
+    X: ["xilofono", "xifoides", "xantina", "xiloteca", "xenial", "xenofobia"],
+    Y: ["yoyo", "yema", "yogur", "yunque", "yuca", "yeso"],
+    Z: ["zapato", "zorro", "zanahoria", "zoologico", "zumo", "zona"],
+  };
+
+  var EMOJI_MAP = {
+    avion: "✈️",
+    arbol: "🌳",
+    abeja: "🐝",
+    agua: "💧",
+    ajo: "🧄",
+    ala: "🪶",
+    anillo: "💍",
+    arroz: "🍚",
+    ardilla: "🐿️",
+    barco: "⛵",
+    ballena: "🐋",
+    botella: "🍾",
+    bota: "🥾",
+    bebe: "👶",
+    boca: "👄",
+    burro: "🐴",
+    biblioteca: "🏫",
+    banana: "🍌",
+    casa: "🏠",
+    conejo: "🐰",
+    cuchara: "🥄",
+    camion: "🚚",
+    cebra: "🦓",
+    cereza: "🍒",
+    cola: "🦊",
+    dado: "🎲",
+    delfin: "🐬",
+    dragon: "🐉",
+    diente: "🦷",
+    dos: "2️⃣",
+    dedo: "☝️",
+    durazno: "🍑",
+    domador: "🎪",
+    elefante: "🐘",
+    escalera: "🪜",
+    estrella: "⭐",
+    escuela: "🏫",
+    escoba: "🧹",
+    ensalada: "🥗",
+    enfermera: "👩‍⚕️",
+    flor: "🌸",
+    foca: "🦭",
+    fruta: "🍎",
+    flecha: "🏹",
+    faro: "🗼",
+    fresa: "🍓",
+    gato: "🐱",
+    gallina: "🐔",
+    guitarra: "🎸",
+    gorra: "🧢",
+    globo: "🎈",
+    gafas: "👓",
+    galleta: "🍪",
+    helado: "🍦",
+    hormiga: "🐜",
+    hospital: "🏥",
+    hacha: "🪓",
+    hilo: "🧵",
+    humo: "💨",
+    hueso: "🦴",
+    isla: "🏝️",
+    iguana: "🦎",
+    iman: "🧲",
+    iglesia: "⛪",
+    invierno: "❄️",
+    indio: "🪶",
+    idea: "💡",
+    jirafa: "🦒",
+    juguete: "🧸",
+    jabon: "🧼",
+    jardin: "🌷",
+    jarra: "🍶",
+    jamon: "🥓",
+    joven: "🧑",
+    kiwi: "🥝",
+    koala: "🐨",
+    karate: "🥋",
+    kimono: "👘",
+    ketchup: "🍅",
+    kayak: "🛶",
+    luna: "🌙",
+    leon: "🦁",
+    lapiz: "✏️",
+    libro: "📚",
+    lampara: "💡",
+    leche: "🥛",
+    lobo: "🐺",
+    mano: "✋",
+    mesa: "🪑",
+    mariposa: "🦋",
+    montana: "⛰️",
+    manzana: "🍎",
+    mochila: "🎒",
+    nube: "☁️",
+    naranja: "🍊",
+    nido: "🪺",
+    navio: "🚢",
+    nariz: "👃",
+    nene: "👦",
+    ñandu: "🪶",
+    ñoqui: "🍝",
+    ñu: "🐃",
+    ñora: "🌶️",
+    ñame: "🍠",
+    ñanduti: "🧶",
+    oso: "🐻",
+    oveja: "🐑",
+    oreja: "👂",
+    oruga: "🐛",
+    olla: "🍲",
+    ojo: "👁️",
+    oasis: "🏜️",
+    perro: "🐶",
+    pelota: "⚽",
+    pan: "🥖",
+    pajaro: "🐦",
+    puente: "🌉",
+    pera: "🍐",
+    queso: "🧀",
+    quetzal: "🦜",
+    quinua: "🥣",
+    quiosco: "🏪",
+    quena: "🎶",
+    quimica: "⚗️",
+    raton: "🐭",
+    reloj: "🕒",
+    rana: "🐸",
+    rio: "🌊",
+    robot: "🤖",
+    rueda: "🛞",
+    sol: "☀️",
+    silla: "🪑",
+    sapo: "🐸",
+    sombrero: "🎩",
+    sandia: "🍉",
+    serpiente: "🐍",
+    taza: "☕",
+    tiburon: "🦈",
+    tren: "🚆",
+    tomate: "🍅",
+    tambor: "🥁",
+    tortuga: "🐢",
+    uva: "🍇",
+    uña: "💅",
+    uno: "1️⃣",
+    uniforme: "👔",
+    urraca: "🐦",
+    utensilio: "🍴",
+    vaca: "🐄",
+    vaso: "🥛",
+    ventana: "🪟",
+    violin: "🎻",
+    volcan: "🌋",
+    viento: "💨",
+    wagon: "🚃",
+    watusi: "💃",
+    wallaby: "🦘",
+    weta: "🦗",
+    walkie: "📻",
+    whisky: "🥃",
+    xilofono: "🎵",
+    xifoides: "🦴",
+    xantina: "⚗️",
+    xiloteca: "📚",
+    xenial: "🤝",
+    xenofobia: "🚫",
+    yate: "🛥️",
+    yema: "🥚",
+    yoyo: "🪀",
+    yogur: "🥛",
+    yunque: "⚒️",
+    yuca: "🌱",
+    yeso: "🩹",
+    zapato: "👟",
+    zorro: "🦊",
+    zanahoria: "🥕",
+    zoologico: "🦁",
+    zumo: "🧃",
+    zona: "📍"
   };
 
   function loadProfile() {
@@ -54,9 +236,9 @@
     window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(String(text || ""));
     u.lang = "es-ES";
-    u.rate = 0.58;
-    u.pitch = 0.9;
-    u.volume = 0.82;
+    u.rate = 0.5;
+    u.pitch = 1.0;
+    u.volume = 1.0;
     var voices = window.speechSynthesis.getVoices ? window.speechSynthesis.getVoices() : [];
     var es = voices.find(function (v) {
       return v && v.lang && v.lang.toLowerCase().indexOf("es") === 0;
@@ -97,67 +279,126 @@
       avion: "airplane",
       arbol: "tree",
       abeja: "bee",
+      anillo: "ring",
+      arroz: "rice",
+      ardilla: "squirrel",
       barco: "boat",
       ballena: "whale",
       botella: "bottle",
+      burro: "donkey",
+      biblioteca: "library",
+      banana: "banana",
       casa: "house",
       conejo: "rabbit",
       cuchara: "spoon",
       camion: "truck",
       cebra: "zebra",
       cereza: "cherry",
+      dado: "dice",
       delfin: "dolphin",
       dragon: "dragon",
+      diente: "tooth",
+      durazno: "peach",
+      domador: "trainer",
       elefante: "elephant",
-      escalera: "stairs",
+      escalera: "ladder",
       estrella: "star",
       escuela: "school",
       escoba: "broom",
+      ensalada: "salad",
       flor: "flower",
+      foca: "seal",
+      fruta: "fruit",
+      flecha: "arrow",
+      faro: "lighthouse",
       fresa: "strawberry",
       gato: "cat",
       gallina: "chicken",
       guitarra: "guitar",
+      gorra: "cap",
       globo: "balloon",
+      galleta: "cookie",
       helado: "icecream",
       hormiga: "ant",
       isla: "island",
       iguana: "iguana",
+      iman: "magnet",
+      iglesia: "church",
+      incendio: "fire",
+      idea: "idea",
       jirafa: "giraffe",
       juguete: "toy",
+      jabon: "soap",
+      jardin: "garden",
+      jarra: "jug",
+      jamon: "ham",
       kiwi: "kiwi",
       koala: "koala",
+      karate: "karate",
+      kimono: "kimono",
+      ketchup: "ketchup",
+      kayak: "kayak",
       luna: "moon",
       leon: "lion",
       lapiz: "pencil",
       libro: "book",
+      lampara: "lamp",
+      lobo: "wolf",
       mano: "hand",
       mesa: "table",
       mariposa: "butterfly",
+      montana: "mountain",
       manzana: "apple",
+      mochila: "backpack",
       nube: "cloud",
       naranja: "orange",
       nido: "nest",
+      navio: "ship",
+      nariz: "nose",
+      nutria: "otter",
+      ñandu: "rhea",
+      ñoqui: "gnocchi",
+      ñu: "gnu",
+      ñora: "pepper",
+      ñame: "yam",
+      ñanduti: "lace",
       oso: "bear",
       oveja: "sheep",
+      oreja: "ear",
+      oruga: "caterpillar",
+      olla: "pot",
+      oasis: "oasis",
       perro: "dog",
       pelota: "ball",
+      pan: "bread",
       pajaro: "bird",
+      puente: "bridge",
+      pera: "pear",
       queso: "cheese",
+      quetzal: "quetzal",
+      quinua: "quinoa",
+      quiosco: "kiosk",
+      quena: "flute",
+      quimica: "chemistry",
       raton: "mouse",
       reloj: "clock",
       rana: "frog",
+      rio: "river",
+      robot: "robot",
+      rueda: "wheel",
       sol: "sun",
       silla: "chair",
       sapo: "toad",
       sombrero: "hat",
       sandia: "watermelon",
+      serpiente: "snake",
       taza: "cup",
       tiburon: "shark",
       tren: "train",
       tomate: "tomato",
       tortuga: "turtle",
       uva: "grapes",
+      una: "one",
       vaca: "cow",
       vaso: "glass",
       ventana: "window",
@@ -174,8 +415,8 @@
     var tag = tagMap[raw] || raw || "object";
     var lock = encodeURIComponent(raw || "word");
     return {
-      primary: "https://loremflickr.com/420/280/" + encodeURIComponent(tag) + "?lock=" + lock,
-      fallback: "https://picsum.photos/seed/" + lock + "/420/280",
+      primary: "https://loremflickr.com/200/140/" + encodeURIComponent(tag + ",cartoon") + "?lock=" + lock,
+      fallback: "https://loremflickr.com/200/140/cartoon?lock=" + lock,
     };
   }
 
@@ -261,37 +502,40 @@
   }
 
   function getEmoji(word) {
-    var w = String(word || "").toLowerCase();
-    if (w.indexOf("oso") === 0) return "🐻";
-    if (w.indexOf("avion") === 0) return "✈️";
-    if (w.indexOf("abeja") === 0) return "🐝";
-    if (w.indexOf("arbol") === 0) return "🌳";
-    if (w.indexOf("barco") === 0) return "⛵";
-    if (w.indexOf("banana") === 0) return "🍌";
-    if (w.indexOf("casa") === 0) return "🏠";
-    if (w.indexOf("conejo") === 0) return "🐰";
-    if (w.indexOf("delfin") === 0) return "🐬";
-    if (w.indexOf("elefante") === 0) return "🐘";
-    if (w.indexOf("flor") === 0) return "🌸";
-    if (w.indexOf("gato") === 0) return "🐱";
-    if (w.indexOf("helado") === 0) return "🍦";
-    if (w.indexOf("isla") === 0) return "🏝️";
-    if (w.indexOf("jirafa") === 0) return "🦒";
-    if (w.indexOf("kiwi") === 0) return "🥝";
-    if (w.indexOf("leon") === 0) return "🦁";
-    if (w.indexOf("mariposa") === 0) return "🦋";
-    if (w.indexOf("nube") === 0) return "☁️";
-    if (w.indexOf("ñandu") === 0) return "🪶";
-    if (w.indexOf("pelota") === 0) return "⚽";
-    if (w.indexOf("queso") === 0) return "🧀";
-    if (w.indexOf("raton") === 0) return "🐭";
-    if (w.indexOf("sol") === 0) return "☀️";
-    if (w.indexOf("tren") === 0) return "🚆";
-    if (w.indexOf("uva") === 0) return "🍇";
-    if (w.indexOf("vaca") === 0) return "🐮";
-    if (w.indexOf("yate") === 0) return "🛥️";
-    if (w.indexOf("zorro") === 0) return "🦊";
-    return "🖼️";
+    var key = normalizeToken(String(word || ""));
+    if (!key) return "🎈";
+    if (EMOJI_MAP[key]) return EMOJI_MAP[key];
+    if (key === "tambor") return "🥁";
+    if (key === "uña") return "💅";
+    if (key === "unicornio") return "🦄";
+    if (key === "universidad") return "🎓";
+    if (key === "urna") return "🏺";
+    if (key === "uniforme") return "👔";
+    if (key === "velero") return "⛵";
+    if (key === "waffle") return "🧇";
+    if (key === "waterpolo") return "🤽";
+    if (key === "wifi") return "📶";
+    if (key === "web") return "🕸️";
+    if (key === "wombat") return "🐨";
+    if (key === "wakame") return "🌿";
+    if (key === "xilofono") return "🎵";
+    if (key === "xilografia") return "🎨";
+    if (key === "xenon") return "💡";
+    if (key === "xiloteca") return "📚";
+    if (key === "xerografia") return "📋";
+    if (key === "xifoides") return "🦴";
+    if (key === "yema") return "🥚";
+    if (key === "yoyo") return "🪀";
+    if (key === "yuca") return "🌱";
+    if (key === "yeso") return "🩹";
+    if (key === "zafiro") return "💎";
+    if (key.indexOf("bebe") === 0) return "👶";
+    if (key.indexOf("ba") === 0) return "🛁";
+    if (key.indexOf("bo") === 0) return "🎈";
+    if (key.indexOf("ca") === 0) return "🐱";
+    if (key.indexOf("do") === 0) return "🐶";
+    if (key.indexOf("mu") === 0) return "🎵";
+    return "🎈";
   }
 
   function getAllWords() {
@@ -382,6 +626,7 @@
           status.className = "small mt-2 " + (ok ? "text-success" : "text-danger");
           status.textContent = ok ? "Correcto." : "Intenta otra vez.";
           showBanner(ok);
+          if (ok) setTimeout(renderRound, 2000);
         });
         col.appendChild(btn);
         optionsEl.appendChild(col);
@@ -392,7 +637,7 @@
 
     btnListen.addEventListener("click", function () {
       if (!current) return;
-      var ok = speak("Letra " + current.letter + ". " + current.word);
+      var ok = speak(current.letter);
       if (listenState) {
         listenState.textContent = ok
           ? "Sonido reproducido."
@@ -419,23 +664,13 @@
 
     function renderRound() {
       current = randomItem(all);
-      var urls = getWordPhotoUrl(current.word);
       clue.innerHTML =
-        "<img class='game-preview-image mb-2' alt='Imagen de palabra' src='" +
-        urls.primary +
-        "' data-fallback-src='" +
-        urls.fallback +
-        "' />" +
+        "<div style='font-size: 6rem; margin-bottom: 1rem;' aria-hidden='true'>" +
+        current.emoji +
+        "</div>" +
         "<span class='d-block'>" +
         current.emoji +
         " Identifica el nombre</span>";
-      var imgClue = clue.querySelector("img");
-      if (imgClue) {
-        imgClue.addEventListener("error", function () {
-          var fb = imgClue.getAttribute("data-fallback-src");
-          if (fb && imgClue.src !== fb) imgClue.src = fb;
-        }, { once: true });
-      }
       var c = current.word.toUpperCase();
       var a = makeWrongWord(c);
       var b = makeWrongWord(c + "S").replace("SS", "S");
@@ -451,6 +686,7 @@
           state.className = "alert mt-4 mb-0 small " + (ok ? "alert-success" : "alert-warning");
           state.textContent = ok ? "Correcto." : "No, prueba otra opción.";
           showBanner(ok);
+          if (ok) setTimeout(renderRound, 2000); // Auto next after 2 seconds
         });
         options.appendChild(btn);
       });
@@ -489,23 +725,13 @@
       var correct = w[idx];
       text.textContent = w.slice(0, idx) + "_" + w.slice(idx + 1);
       hint.textContent = "Completa la palabra";
-      var urls = getWordPhotoUrl(current.word);
       emoji.innerHTML =
-        "<img class='game-preview-image mb-2' alt='Imagen de referencia' src='" +
-        urls.primary +
-        "' data-fallback-src='" +
-        urls.fallback +
-        "' />" +
+        "<div style='font-size: 5rem; margin-bottom: 1rem;' aria-hidden='true'>" +
+        current.emoji +
+        "</div>" +
         "<span class='d-block fs-6'>" +
         current.emoji +
         "</span>";
-      var imgSil = emoji.querySelector("img");
-      if (imgSil) {
-        imgSil.addEventListener("error", function () {
-          var fb = imgSil.getAttribute("data-fallback-src");
-          if (fb && imgSil.src !== fb) imgSil.src = fb;
-        }, { once: true });
-      }
       var letters = shuffle([correct].concat(sample(LETTERS.filter(function (l) { return l !== correct; }), 3)));
       opts.innerHTML = "";
       letters.forEach(function (l) {
@@ -521,6 +747,7 @@
             state.className = "small text-success mt-2";
             state.textContent = "Muy bien.";
             showBanner(true);
+            setTimeout(renderRound, 2000);
           } else {
             state.className = "small text-danger mt-2";
             state.textContent = "Intenta de nuevo.";
@@ -628,22 +855,8 @@
         var d = document.createElement("button");
         d.type = "button";
         d.className = "match-item match-item-btn";
-        d.style.fontSize = "1rem";
-        var linkedWord = round[idxEmoji] ? round[idxEmoji].word : "imagen";
-        var urls = getWordPhotoUrl(linkedWord);
-        d.innerHTML =
-          "<img class='game-mini-image' alt='Dibujo' src='" +
-          urls.primary +
-          "' data-fallback-src='" +
-          urls.fallback +
-          "' />";
-        var mini = d.querySelector("img");
-        if (mini) {
-          mini.addEventListener("error", function () {
-            var fb = mini.getAttribute("data-fallback-src");
-            if (fb && mini.src !== fb) mini.src = fb;
-          }, { once: true });
-        }
+        d.style.fontSize = "3rem";
+        d.innerHTML = "<span aria-hidden='true'>" + e + "</span>";
         d.setAttribute("data-emoji-idx", String(drawsEl.childElementCount));
         d.addEventListener("click", function () {
           selectedEmoji = parseInt(d.getAttribute("data-emoji-idx"), 10);
@@ -668,6 +881,7 @@
       state.className = "small mt-2 " + (ok ? "text-success" : "text-danger");
       state.textContent = ok ? "Correcto." : "Hay uniones incorrectas.";
       showBanner(ok);
+      if (ok) setTimeout(renderRound, 2000);
     });
     if (btnListen) {
       btnListen.addEventListener("click", function () {
@@ -792,6 +1006,7 @@
       state.className = "small mt-2 " + (ok ? "text-success" : "text-danger");
       state.textContent = ok ? "Correcto." : "Algunas uniones no coinciden.";
       showBanner(ok);
+      if (ok) setTimeout(renderRound, 2000);
     });
     if (btnListen) {
       btnListen.addEventListener("click", function () {

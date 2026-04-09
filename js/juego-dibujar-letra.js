@@ -11,6 +11,7 @@
   const btnNext = document.getElementById("btnSiguiente");
   const btnVoice = document.getElementById("btnVozSiguiente");
   const status = document.getElementById("estadoJuego");
+  const colorPicker = document.getElementById("colorPicker");
 
   if (!canvas || !guide) return;
 
@@ -18,6 +19,7 @@
   if (!ctx) return;
 
   let drawing = false;
+  let currentColor = "#4a677d";
 
   function setGuideFromSelect() {
     const v = select?.value || "A";
@@ -61,7 +63,7 @@
     const p = pos(e);
     ctx.beginPath();
     ctx.moveTo(p.x, p.y);
-    ctx.strokeStyle = "#0d6efd";
+    ctx.strokeStyle = currentColor;
     ctx.lineWidth = 4;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -94,7 +96,7 @@
   btnSound?.addEventListener("click", () => {
     const letra = select?.value || "A";
     const ok = window.LetritasGames && window.LetritasGames.speak
-      ? window.LetritasGames.speak(`Letra ${letra}`)
+      ? window.LetritasGames.speak(letra)
       : false;
     if (status) {
       status.textContent = ok ? "Sonido reproducido." : "Sonido desactivado o no disponible.";
@@ -114,6 +116,18 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (status) status.textContent = `Siguiente letra: ${next}`;
   });
+
+  if (colorPicker) {
+    colorPicker.addEventListener("click", (e) => {
+      if (e.target.dataset.color) {
+        currentColor = e.target.dataset.color;
+        Array.from(colorPicker.children).forEach(btn => btn.classList.remove("active"));
+        e.target.classList.add("active");
+      }
+    });
+    // Set initial active
+    colorPicker.children[0].classList.add("active");
+  }
 
   if (window.LetritasGames && window.LetritasGames.voiceNext) {
     window.LetritasGames.voiceNext(btnVoice, () => {

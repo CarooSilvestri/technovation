@@ -1228,3 +1228,248 @@ html.letritas-bw-on {
   --bs-btn-hover-border-color: #32475d;
   font-weight: 600;
 }
+
+/* Pantallas de juegos */
+.trace-area {
+  position: relative;
+  border-radius: 1.25rem;
+  background: #fff;
+  border: 1px solid rgba(45, 53, 64, 0.08);
+  box-shadow: var(--letritas-shadow);
+  min-height: 220px;
+  overflow: hidden;
+}
+
+.trace-guide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+  font-weight: 700;
+  color: rgba(45, 53, 64, 0.1);
+  pointer-events: none;
+  user-select: none;
+}
+
+.trace-canvas {
+  width: 100%;
+  height: 220px;
+  touch-action: none;
+  position: relative;
+  z-index: 2;
+}
+
+.match-columns {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.match-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.match-arrows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 84px;
+}
+
+.match-item {
+  min-height: 3.35rem;
+  border-radius: 1rem;
+  background: #fff;
+  border: 1px solid rgba(45, 53, 64, 0.08);
+  box-shadow: var(--letritas-shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.match-item-btn {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.match-item-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(143, 177, 204, 0.55);
+}
+
+.match-item-btn.is-selected {
+  border-color: var(--letritas-blue);
+  box-shadow: 0 0 0 3px rgba(143, 177, 204, 0.22), var(--letritas-shadow-sm);
+}
+
+.match-lines {
+  z-index: 1;
+}
+
+.match-col,
+.match-arrows {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 420px) {
+  .match-columns {
+    grid-template-columns: 1fr;
+  }
+  .match-arrows {
+    width: 100%;
+  }
+}
+
+/* Rediseño visual para pantallas de juegos existentes */
+[data-game] {
+  background: var(--letritas-bg);
+  background-image: none;
+  font-family: "Quicksand", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+[data-game] .app-navbar {
+  background: #fff !important;
+  box-shadow: 0 1px 0 rgba(45, 53, 64, 0.08);
+}
+
+[data-game] .app-navbar .navbar-brand {
+  color: #3e5b77 !important;
+  font-weight: 700;
+}
+
+[data-game] .app-navbar .nav-link {
+  color: #64748b !important;
+}
+
+[data-game] main h1 {
+  color: #3e5b77;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+[data-game] .app-card {
+  border-radius: 1.55rem;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(62, 91, 119, 0.08);
+  border: 1px solid rgba(62, 91, 119, 0.06);
+}
+
+[data-game] .row.g-2 .btn-outline-dark,
+[data-game] .row.g-3 .btn-outline-primary {
+  min-height: 5.8rem;
+  font-weight: 700;
+  color: #3e5b77;
+  border-color: #dde6ef;
+  background: #fff;
+}
+
+[data-game] .btn-primary {
+  --bs-btn-bg: #4a677d;
+  --bs-btn-border-color: #4a677d;
+  --bs-btn-hover-bg: #3d5668;
+  --bs-btn-hover-border-color: #3d5668;
+  border-radius: 1rem;
+  font-weight: 700;
+}
+
+[data-game] .btn-secondary {
+  --bs-btn-bg: #6b7280;
+  --bs-btn-border-color: #6b7280;
+  --bs-btn-hover-bg: #59616f;
+  --bs-btn-hover-border-color: #59616f;
+  border-radius: 1rem;
+  font-weight: 700;
+}
+
+[data-game] .btn-outline-primary,
+[data-game] .btn-outline-dark,
+[data-game] .btn-light.border {
+  border-radius: 1rem;
+}
+
+[data-game] .btn-outline-primary {
+  --bs-btn-color: #3e5b77;
+  --bs-btn-border-color: #b9d9f2;
+  --bs-btn-hover-bg: #e6f2fb;
+  --bs-btn-hover-border-color: #8fb1cc;
+  --bs-btn-hover-color: #2f4f6b;
+}
+
+[data-game] .btn-outline-dark {
+  --bs-btn-color: #2f4f6b;
+  --bs-btn-border-color: #dbe3ec;
+  --bs-btn-hover-bg: #edf3f8;
+  --bs-btn-hover-border-color: #b9d9f2;
+}
+
+[data-game] .btn-light.border {
+  border-color: #e1e8ef !important;
+  background: #fff;
+  color: #3e5b77;
+  font-weight: 700;
+}
+
+[data-game] .form-select {
+  border-radius: 0.85rem;
+  border-color: #dbe3ec;
+}
+
+[data-game] .alert-info {
+  background: #eaf3fb;
+  color: #3e5b77;
+  border-color: #cce3f6;
+}
+
+.game-preview-image {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  border-radius: 1rem;
+  border: 1px solid #dbe3ec;
+  background: #fff;
+}
+
+.game-mini-image {
+  width: 56px;
+  height: 56px;
+  border-radius: 0.85rem;
+  object-fit: cover;
+}
+
+.game-banner-feedback {
+  position: fixed;
+  left: 50%;
+  bottom: 1.15rem;
+  transform: translateX(-50%) translateY(16px);
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.game-banner-feedback.is-success {
+  background: #4f6f52;
+}
+
+.game-banner-feedback.is-error {
+  background: #8f5f6f;
+}
+
+.game-banner-feedback.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

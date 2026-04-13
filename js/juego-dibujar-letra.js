@@ -93,6 +93,20 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   });
 
+  function updateSoundButton() {
+    var enabled = true;
+    if (window.LetritasGames && typeof window.LetritasGames.soundEnabled === "function") {
+      enabled = window.LetritasGames.soundEnabled();
+    }
+    if (btnSound) {
+      btnSound.disabled = !enabled;
+      btnSound.title = enabled ? "Reproducir sonido" : "Sonido desactivado";
+    }
+    if (status && !enabled) {
+      status.textContent = "Sonido desactivado.";
+    }
+  }
+
   btnSound?.addEventListener("click", () => {
     const letra = select?.value || "A";
     const ok = window.LetritasGames && window.LetritasGames.speak
@@ -104,6 +118,9 @@
     btnSound.classList.add("active");
     setTimeout(() => btnSound.classList.remove("active"), 200);
   });
+
+  window.addEventListener("soundSettingChanged", updateSoundButton);
+  updateSoundButton();
 
   btnNext?.addEventListener("click", () => {
     if (!select) return;

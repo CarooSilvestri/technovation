@@ -235,12 +235,16 @@
     if (!soundEnabled()) {
       // Cancelar cualquier reproducción en curso
       if (window.speechSynthesis) {
+        window.speechSynthesis.pause();
         window.speechSynthesis.cancel();
       }
       return false;
     }
     if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) return false;
-    window.speechSynthesis.cancel();
+    if (window.speechSynthesis) {
+      window.speechSynthesis.pause();
+      window.speechSynthesis.cancel();
+    }
     var u = new SpeechSynthesisUtterance(String(text || ""));
     u.lang = "es-ES";
     u.rate = 0.5;
@@ -1039,13 +1043,33 @@
     soundEnabled: soundEnabled,
   };
 
+  function updateSoundControls() {
+    var enabled = soundEnabled();
+    var soundButtons = Array.prototype.slice.call(document.querySelectorAll(
+      "#btnEscuchar, #btnEscucharPalabra, #btnEscucharSilaba, #btnEscucharJuego, #btnSonidoLetra"
+    ));
+    soundButtons.forEach(function (btn) {
+      btn.disabled = !enabled;
+      if (!enabled) {
+        btn.setAttribute("aria-disabled", "true");
+        btn.title = "Sonido desactivado";
+      } else {
+        btn.removeAttribute("aria-disabled");
+        btn.title = btn.id === "btnSonidoLetra" ? "Reproducir sonido" : "Escuchar sonido";
+      }
+    });
+  }
+
   // Listener para cambios en la configuración de sonido
   window.addEventListener("soundSettingChanged", function () {
     // Cancelar cualquier reproducción en curso
     if (window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
+    updateSoundControls();
   });
+
+  updateSoundControls();
 
   initLetraSonido();
   initPalabras();

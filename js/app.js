@@ -306,6 +306,7 @@
         saveProfile({ sonido: soundEl.checked });
         // Cancelar cualquier sonido en reproducción
         if (window.speechSynthesis) {
+          window.speechSynthesis.pause();
           window.speechSynthesis.cancel();
         }
         // Notificar a otros scripts que el sonido cambió

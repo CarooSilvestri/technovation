@@ -3,7 +3,7 @@
   "use strict";
 
   window.LETRO_CONFIG = {
-    STORAGE_KEY: "letro_user",
+    STORAGE_KEY: "letritas_perfil",
     SPLASH_DELAY_MS: 5000,
   };
 })();

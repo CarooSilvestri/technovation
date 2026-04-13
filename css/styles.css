@@ -383,9 +383,11 @@ p {
 }
 
 [data-inicio] .app-home-main {
-  max-width: 520px;
+  width: 100%;
   margin: 0 auto;
-  padding: 0.75rem 1.15rem 2.5rem;
+  padding: 1.1rem 1.25rem 2rem;
+  max-width: none
+  max-width: none;
 }
 
 [data-inicio] .app-home-title {

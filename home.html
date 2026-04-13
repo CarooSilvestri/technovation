@@ -22,9 +22,10 @@
     <link href="css/styles.css" rel="stylesheet" />
   </head>
 
-  <body>
+  <body data-inicio>
     <div>
-      <header class="d-flex align-items-center app-home-header gap-2">
+      <header class="d-flex align-items-center app-home-header justify-content-between">
+        <div class="d-flex align-items-center gap-2">
           <a
             class="app-home-avatar app-home-avatar-link"
             href="perfil.html"
@@ -35,10 +36,11 @@
           <h3 class="app-home-greeting">
             Hola, <span id="name"></span>
           </h3>
-          <a class="app-home-settings" href="perfil.html" aria-label="Ajustes" title="Ajustes">
-            <span class="app-home-settings-ico" aria-hidden="true">⚙️</span>
-          </a>
-    </header>
+        </div>
+        <a class="app-home-settings" href="perfil.html" aria-label="Ajustes" title="Ajustes">
+          <span class="app-home-settings-ico" aria-hidden="true">⚙️</span>
+        </a>
+      </header>
 
     <main class="app-home-main">
       <h2 class="app-home-title">¿Qué quieres aprender hoy?</h2>

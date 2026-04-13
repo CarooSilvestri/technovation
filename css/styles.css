@@ -1590,3 +1590,8 @@ html.letro-bw-on {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
+/* Modo blanco y negro global */
+html.letritas-bw-on {
+  filter: grayscale(1) contrast(1.05);
+}

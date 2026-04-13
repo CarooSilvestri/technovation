@@ -15,16 +15,23 @@
     <link href="css/styles.css" rel="stylesheet" />
   </head>
   <body data-game="palabras">
-    <nav class="navbar bg-white app-navbar">
-      <div class="container">
-        <a class="navbar-brand fw-bold" href="index.html">Letritas</a>
-        <a class="nav-link" href="index.html">Inicio</a>
-      </div>
-    </nav>
+    <header class="d-flex align-items-center app-home-header gap-2">
+      <a
+        class="app-home-avatar app-home-avatar-link"
+        href="perfil.html"
+        aria-label="Ir al perfil"
+      >
+        <span data-home-emoji aria-hidden="true">🐰</span>
+      </a>
+      <h3 class="app-home-greeting">
+        Hola, <span id="name"></span>
+      </h3>
+      <a href="home.html" class="ms-auto" aria-label="Volver al inicio" style="font-size: 1.5rem;">🏠</a>
+    </header>
 
-    <main class="container py-4" style="max-width: 560px">
-      <h1 class="h4 mb-1">Palabra bien escrita</h1>
-      <p class="text-muted small mb-4">Tocá la opción que esté escrita correctamente.</p>
+    <main class="container-fluid py-4" style="max-width: 560px; margin: 0 auto;">
+      <h2 class="app-home-title" style="margin-bottom: 0.5rem;">¿Está bien escrita?</h2>
+      <p class="app-home-lead" style="margin-bottom: 1.5rem;">Elige la palabra que está escrita correctamente.</p>
 
       <div class="card app-card mb-3">
         <div class="card-body">

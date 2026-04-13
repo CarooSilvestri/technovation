@@ -99,7 +99,7 @@
       ? window.LetritasGames.speak(letra)
       : false;
     if (status) {
-      status.textContent = ok ? "Sonido reproducido." : "Sonido desactivado o no disponible.";
+      status.textContent = ok ? "Sonido reproducido." : "Sonido desactivado.";
     }
     btnSound.classList.add("active");
     setTimeout(() => btnSound.classList.remove("active"), 200);

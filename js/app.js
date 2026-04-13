@@ -304,6 +304,12 @@
       soundEl.checked = p.sonido !== false;
       soundEl.addEventListener("change", function () {
         saveProfile({ sonido: soundEl.checked });
+        // Cancelar cualquier sonido en reproducción
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
+        // Notificar a otros scripts que el sonido cambió
+        window.dispatchEvent(new Event("soundSettingChanged"));
       });
     }
 

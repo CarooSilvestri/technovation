@@ -231,7 +231,14 @@
   }
 
   function speak(text) {
-    if (!soundEnabled()) return false;
+    // Validar sonido habilitado ANTES de hacer nada
+    if (!soundEnabled()) {
+      // Cancelar cualquier reproducción en curso
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+      return false;
+    }
     if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) return false;
     window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(String(text || ""));
@@ -641,7 +648,7 @@
       if (listenState) {
         listenState.textContent = ok
           ? "Sonido reproducido."
-          : "Sonido desactivado en perfil o no disponible en este navegador.";
+          : "Sonido desactivado.";
       }
     });
     btnNext.addEventListener("click", renderRound);
@@ -1031,6 +1038,14 @@
     voiceNext: createVoiceNext,
     soundEnabled: soundEnabled,
   };
+
+  // Listener para cambios en la configuración de sonido
+  window.addEventListener("soundSettingChanged", function () {
+    // Cancelar cualquier reproducción en curso
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+  });
 
   initLetraSonido();
   initPalabras();

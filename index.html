@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- index.html -->
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -29,7 +28,7 @@
 
   <body class="app-splash">
     <section
-      class="d-flex flex-column justify-content-center align-items-center text-center px-3"
+      class="d-flex flex-column justify-content-center align-items-center text-center px-3 min-vh-100"
       role="status"
       aria-live="polite"
     >
@@ -37,8 +36,8 @@
         class="animate__animated animate__fadeInDown"
         src="assets/logo_letro.png"
         alt="Bienvenido a letro!"
-        width="500"
-        height="500"
+        width="400"
+        height="400"
       />
       <div class="d-flex flex-column justify-content-center align-items-center gap-4">
         <div class="d-flex flex-column gap-2">
@@ -64,10 +63,10 @@
         }
 
         window.setTimeout(function () {
-            if (!safeLoadProfile) window.location.replace("registro.html");
-            else window.location.replace("home.html");
+            if (!safeLoadProfile()) window.location.replace(window.PAGES.REGISTER);
+            else window.location.replace(window.PAGES.HOME);
         }, window.LETRO_CONFIG.SPLASH_DELAY_MS);
       })();
-    </script>
+    </script> 
   </body>
 </html>

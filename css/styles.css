@@ -387,7 +387,6 @@ p {
   margin: 0 auto;
   padding: 1.1rem 1.25rem 2rem;
   max-width: none
-  max-width: none;
 }
 
 [data-inicio] .app-home-title {

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<!-- Registro por pasos: nombre + avatar, edad, dificultad. Paleta #F5F5F3 #E5C1CD #B4CFB0 #8FB1CC -->
+
 <html lang="es">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#8FB1CC" />
-    <title>Letritas — Registro</title>
+    <title>Letro</title>
     <link rel="manifest" href="manifest.json" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap"
       rel="stylesheet"
     />
     <link
@@ -19,32 +19,47 @@
       crossorigin="anonymous"
     />
     <link href="css/styles.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="js/config.js"></script>
   </head>
-  <body data-registro>
-    <header class="app-registro-header">
-      <div class="container app-registro-header-inner">
-        <a class="app-registro-brand" href="index.html">
-          <span class="app-registro-logo-badge" aria-hidden="true">✨</span>
-          <span class="app-registro-brand-text">Letritas</span>
-        </a>
-        <a class="app-registro-back" href="index.html">Volver al inicio</a>
-      </div>
 
-      <div class="container pb-2">
-        <div class="app-step-bars" role="progressbar" aria-label="Progreso del registro">
-          <span class="step-bar active" data-step-dot></span>
+  <body data-registro>
+    <header class="app-registro-header pt-4 pb-3 border-bottom border-secondary-subtle rounded-bottom-4">
+      <div
+        class="container-fluid d-flex flex-column align-items-center gap-2"
+      >
+        <h2 class="app-registro-title mb-0 text-uppercase">Registro</h2>
+        <p class="app-registro-step-meta small mb-0 fw-semibold opacity-75" aria-live="polite">
+          Paso <span id="">1</span> de <script>document.write(window.LETRO_CONFIG.STEPS);</script>
+        </p>
+        <div
+          class="d-flex w-100 gap-2 align-items-center"
+          role="progressbar"
+          aria-valuemin="1"
+          aria-valuemax="3"
+          aria-valuenow="1"
+          aria-label="Progreso del registro"
+          data-registro-progress
+        >
+          <span class="step-bar active is-current" data-step-dot></span>
           <span class="step-bar" data-step-dot></span>
           <span class="step-bar" data-step-dot></span>
         </div>
       </div>
     </header>
 
-    <main class="container app-registro-main">
+    <main class="container-fluid pt-4">
       <form class="app-registro-form" action="#" method="get" onsubmit="return false;">
-        <div data-step>
+        <!-- Nombre y avatar -->
+        <div id="step-0">
           <h2 class="app-registro-question">¿Cómo te llamas?</h2>
           <label class="visually-hidden" for="nombre">Nombre</label>
-          <input
+          <input  
             type="text"
             class="form-control form-control-lg app-registro-input"
             id="nombre"
@@ -53,48 +68,15 @@
             autocomplete="name"
           />
 
-          <h3 class="app-registro-subtitle">Elige tu avatar</h3>
-          <div class="row g-3 app-avatar-grid">
-            <div class="col-6">
-              <div class="avatar-pick selected text-center" role="button" tabindex="0">
-                <div class="emoji-wrap">🐝</div>
-                <span class="small d-block mt-1">Abeja</span>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="avatar-pick text-center" role="button" tabindex="0">
-                <div class="emoji-wrap">🐱</div>
-                <span class="small d-block mt-1">Gato</span>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="avatar-pick text-center" role="button" tabindex="0">
-                <div class="emoji-wrap">🐻</div>
-                <span class="small d-block mt-1">Oso</span>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="avatar-pick text-center" role="button" tabindex="0">
-                <div class="emoji-wrap">🐰</div>
-                <span class="small d-block mt-1">Conejo</span>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="avatar-pick text-center" role="button" tabindex="0">
-                <div class="emoji-wrap">🦉</div>
-                <span class="small d-block mt-1">Búho</span>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="avatar-pick text-center" role="button" tabindex="0">
-                <div class="emoji-wrap">🦊</div>
-                <span class="small d-block mt-1">Zorro</span>
-              </div>
-            </div>
+          <hr class="my-4"/>
+          <div class="d-flex flex-column gap-3">
+            <h2 class="text-center pb-3">Elige tu avatar</h2>
+            <div class="row g-3 app-avatar-grid" id="avatar-grid"></div>
           </div>
         </div>
 
-        <div data-step hidden>
+        <!-- Edad -->
+        <div id="step-1" hidden>
           <h2 class="app-registro-question app-registro-question--edad">¿Cuántos años tienes?</h2>
           <div class="app-edad-picker" role="group" aria-labelledby="edad-label">
             <span id="edad-label" class="visually-hidden">Elegí tu edad en años</span>
@@ -103,7 +85,8 @@
           </div>
         </div>
 
-        <div data-step hidden class="app-nivel-step">
+        <!-- Nivel -->
+        <div id="step-2" hidden class="app-nivel-step">
           <h2 id="nivel-title" class="app-nivel-title">Elige tu nivel</h2>
           <p class="app-nivel-subtitle">
             Configura el desafío perfecto para comenzar tu viaje de aprendizaje.
@@ -150,7 +133,7 @@
           </p>
         </div>
 
-        <div class="app-registro-footer">
+        <div class="d-flex justify-content-between">
           <button type="button" class="btn btn-outline-secondary" data-registro-prev hidden>
             Atrás
           </button>
@@ -169,6 +152,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="js/config.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/register.js"></script>
   </body>
 </html>

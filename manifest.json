@@ -1,18 +1,20 @@
 {
-  "name": "Letritas — Aprender jugando",
-  "short_name": "Letritas",
+  "name": "Letro — Aprender jugando",
+  "short_name": "Letro",
   "description": "Actividades de lectoescritura adaptadas",
   "start_url": "./index.html",
+  "scope": "./",
+  "id": "./",
   "display": "standalone",
-  "background_color": "#f8f9fa",
-  "theme_color": "#6c757d",
+  "background_color": "#ffffff",
+  "theme_color": "#8FB1CC",
   "orientation": "portrait-primary",
   "icons": [
     {
       "src": "assets/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }

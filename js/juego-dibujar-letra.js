@@ -99,11 +99,8 @@
       enabled = window.LetritasGames.soundEnabled();
     }
     if (btnSound) {
-      btnSound.disabled = !enabled;
-      btnSound.title = enabled ? "Reproducir sonido" : "Sonido desactivado";
-    }
-    if (status && !enabled) {
-      status.textContent = "Sonido desactivado.";
+      btnSound.classList.toggle("d-none", !enabled);
+      btnSound.hidden = !enabled;
     }
   }
 

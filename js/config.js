@@ -25,5 +25,10 @@
     GAME_UNIR_MAYUSCULAS: "juego-unir-mayusculas.html",
     GAME_SILABAS: "juego-silabas.html",
   };
+
+  window.AGES = {
+    MIN: 4,
+    MAX: 18 
+  }
 })();
 

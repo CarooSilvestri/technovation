@@ -438,7 +438,9 @@
 
   function nearestMatchRoot(el) {
     while (el) {
-      if (el.classList && el.classList.contains("match-columns")) return el;
+      if (el.classList && (el.classList.contains("match-root") || el.classList.contains("match-columns"))) {
+        return el;
+      }
       el = el.parentElement;
     }
     return null;
@@ -668,7 +670,7 @@
     var btnListen = document.getElementById("btnEscucharPalabra");
     var btnNext = document.getElementById("btnSiguiente");
     var btnVoice = document.getElementById("btnVozSiguiente");
-    if (!clue || !options || !state || !btnListen || !btnNext) return;
+    if (!clue || !options || !btnListen || !btnNext) return;
 
     var current = null;
     var all = getAllWords();
@@ -676,10 +678,10 @@
     function renderRound() {
       current = randomItem(all);
       clue.innerHTML =
-        "<div style='font-size: 6rem; margin-bottom: 1rem;' aria-hidden='true'>" +
+        "<div class='text-center' style='font-size: 6rem; margin-bottom: 1rem;' aria-hidden='true'>" +
         current.emoji +
         "</div>" +
-        "<span class='d-block'>" +
+        "<span class='d-block text-center'>" +
         current.emoji +
         " Identifica el nombre</span>";
       var c = current.word.toUpperCase();
@@ -690,19 +692,23 @@
       arr.forEach(function (w) {
         var btn = document.createElement("button");
         btn.type = "button";
-        btn.className = "btn btn-light border btn-lg text-start py-3";
+        btn.className = "btn btn-light border btn-lg text-center py-3";
         btn.textContent = w;
         btn.addEventListener("click", function () {
           var ok = w === c;
-          state.className = "alert mt-4 mb-0 small " + (ok ? "alert-success" : "alert-warning");
-          state.textContent = ok ? "Correcto." : "No, prueba otra opción.";
+          if (state) {
+            state.className = "alert mt-4 mb-0 small " + (ok ? "alert-success" : "alert-warning");
+            state.textContent = ok ? "Correcto." : "No, prueba otra opción.";
+          }
           showBanner(ok);
           if (ok) setTimeout(renderRound, 2000); // Auto next after 2 seconds
         });
         options.appendChild(btn);
       });
-      state.className = "alert alert-info mt-4 mb-0 small";
-      state.textContent = "Elige una opción.";
+      if (state) {
+        state.className = "alert alert-info mt-4 mb-0 small";
+        state.textContent = "Elige una opción.";
+      }
     }
 
     btnListen.addEventListener("click", function () {
@@ -1049,11 +1055,12 @@
       "#btnEscuchar, #btnEscucharPalabra, #btnEscucharSilaba, #btnEscucharJuego, #btnSonidoLetra"
     ));
     soundButtons.forEach(function (btn) {
-      btn.disabled = !enabled;
       if (!enabled) {
+        btn.disabled = true;
         btn.setAttribute("aria-disabled", "true");
         btn.title = "Sonido desactivado";
       } else {
+        btn.disabled = false;
         btn.removeAttribute("aria-disabled");
         btn.title = btn.id === "btnSonidoLetra" ? "Reproducir sonido" : "Escuchar sonido";
       }

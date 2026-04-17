@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#3E5B77" />
-    <title>Letritas — Mi perfil</title>
+    <title>Letro</title>
     <link rel="manifest" href="manifest.json" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,27 +20,25 @@
     />
     <link href="css/styles.css" rel="stylesheet" />
   </head>
+
   <body data-perfil>
-    <header class="app-perfil-header">
-      <div class="app-perfil-header-inner">
-        <a class="app-perfil-back" href="home.html" aria-label="Volver al inicio">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="M15 18l-6-6 6-6"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+    <header class="d-flex align-items-center px-3 py-2 justify-content-between gap-2 app-home-header">
+      <div class="d-flex justify-content-between w-100 px-3 py-1 align-items-center">
+        <h3 class="app-home-greeting h5 mb-0 fw-semibold text-truncate">
+          Volver al inicio
+        </h3>
+        <a
+          class="d-inline-flex align-items-center justify-content-center flex-shrink-0 text-decoration-none"
+          href="home.html"
+          aria-label="Volver al inicio"
+        >
+          <span style="font-size: 1.5rem; line-height: 1;" aria-hidden="true">🏠</span>
         </a>
-        <h1 class="app-perfil-title">Letritas</h1>
-        <span class="app-perfil-header-spacer" aria-hidden="true"></span>
       </div>
     </header>
 
-    <main class="app-perfil-main">
-      <div class="app-perfil-hero text-center">
+    <main class="container pt-4 pb-0">
+      <div class="text-center ">
         <div class="app-perfil-avatar-wrap">
           <div class="app-perfil-avatar-circle">
             <span class="app-perfil-avatar-emoji" data-perfil-emoji aria-hidden="true">🐝</span>
@@ -69,7 +67,7 @@
       </div>
 
       <div class="app-perfil-card">
-        <div class="app-perfil-row">
+        <div class="d-flex align-items-center gap-3 py-2">
           <span class="app-perfil-icon app-perfil-icon-bw" aria-hidden="true"></span>
           <span class="app-perfil-row-label">Modo Blanco y Negro</span>
           <div class="form-check form-switch app-perfil-switch mb-0">
@@ -83,7 +81,7 @@
             <label class="visually-hidden" for="bw">Modo blanco y negro</label>
           </div>
         </div>
-        <div class="app-perfil-row">
+        <div class="d-flex align-items-center gap-3 py-2">
           <span class="app-perfil-icon app-perfil-icon-sound" aria-hidden="true"></span>
           <span class="app-perfil-row-label">Sonido activado</span>
           <div class="form-check form-switch app-perfil-switch mb-0">
@@ -99,8 +97,8 @@
           </div>
         </div>
 
-        <div class="app-perfil-divider" role="presentation"></div>
-        <p class="app-perfil-section-label">CAMBIAR NIVEL</p>
+        <hr class="my-3 opacity-25" />
+        <p class="text-uppercase small fw-bold text-secondary mb-3">Cambiar nivel</p>
 
         <div class="app-perfil-levels">
           <button type="button" class="app-perfil-level app-perfil-level--facil" data-perfil-level="facil">
@@ -132,42 +130,6 @@
             <span class="app-perfil-level-trail" data-perfil-level-indicator></span>
           </button>
         </div>
-
-        <div class="app-perfil-avatars-collapse" data-perfil-avatar-panel hidden>
-          <p class="app-perfil-avatars-hint small mb-2">Elegí tu avatar</p>
-          <div class="row g-2 app-perfil-avatar-grid">
-            <div class="col-4">
-              <button type="button" class="app-perfil-avatar-pick" data-avatar-id="abeja" data-emoji="🐝">
-                <span class="fs-3">🐝</span>
-              </button>
-            </div>
-            <div class="col-4">
-              <button type="button" class="app-perfil-avatar-pick" data-avatar-id="gato" data-emoji="🐱">
-                <span class="fs-3">🐱</span>
-              </button>
-            </div>
-            <div class="col-4">
-              <button type="button" class="app-perfil-avatar-pick" data-avatar-id="oso" data-emoji="🐻">
-                <span class="fs-3">🐻</span>
-              </button>
-            </div>
-            <div class="col-4">
-              <button type="button" class="app-perfil-avatar-pick" data-avatar-id="conejo" data-emoji="🐰">
-                <span class="fs-3">🐰</span>
-              </button>
-            </div>
-            <div class="col-4">
-              <button type="button" class="app-perfil-avatar-pick" data-avatar-id="buho" data-emoji="🦉">
-                <span class="fs-3">🦉</span>
-              </button>
-            </div>
-            <div class="col-4">
-              <button type="button" class="app-perfil-avatar-pick" data-avatar-id="zorro" data-emoji="🦊">
-                <span class="fs-3">🦊</span>
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div class="text-center mt-4">
@@ -185,10 +147,31 @@
         </button>
       </div>
 
-      <div class="text-center mt-3 pb-4">
-        <a class="btn btn-primary rounded-pill px-4" href="index.html">Ir a los juegos</a>
-      </div>
     </main>
+
+    <div
+      class="modal fade"
+      id="perfilAvatarModal"
+      tabindex="-1"
+      aria-labelledby="perfilAvatarModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4">
+          <div class="modal-header border-0 pb-0">
+            <h2 class="modal-title fs-5" id="perfilAvatarModalLabel">Elige tu avatar</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body pt-2">
+            <div class="row g-3 app-avatar-grid" id="perfil-avatar-grid"></div>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="btnGuardarAvatarPerfil">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

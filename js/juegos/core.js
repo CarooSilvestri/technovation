@@ -1,9 +1,7 @@
-// js/juegos/core.js — Datos comunes, audio y utilidades para los minijuegos.
 (function () {
   "use strict";
 
-  var STORAGE_KEY =
-    (window.LETRO_CONFIG && window.LETRO_CONFIG.STORAGE_KEY) || "letro_profile";
+  var STORAGE_KEY = window.LETRO_CONFIG.STORAGE_KEY;
   var LETTERS = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,Ñ,O,P,Q,R,S,T,U,V,W,X,Y,Z".split(",");
 
   var WORDS_BY_LETTER = {
@@ -219,13 +217,9 @@
   };
 
   function loadProfile() {
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      var p = raw ? JSON.parse(raw) : {};
-      return p && typeof p === "object" ? p : {};
-    } catch (e) {
-      return {};
-    }
+    var raw = localStorage.getItem(STORAGE_KEY);
+    var p = raw ? JSON.parse(raw) : {};
+    return p && typeof p === "object" ? p : {};
   }
 
   /** Lo que guarda el perfil: facil, intermedio o dificil (si no, facil). */
@@ -239,7 +233,7 @@
     return loadProfile().sonido !== false;
   }
 
-  function speak(text) {
+  function speak(text, onEnd) {
     // Validar sonido habilitado ANTES de hacer nada
     if (!soundEnabled()) {
       // Cancelar cualquier reproducción en curso
@@ -264,6 +258,10 @@
       return v && v.lang && v.lang.toLowerCase().indexOf("es") === 0;
     });
     if (es) u.voice = es;
+    if (typeof onEnd === "function") {
+      u.onend = onEnd;
+      u.onerror = onEnd;
+    }
     window.speechSynthesis.speak(u);
     return true;
   }
@@ -568,6 +566,88 @@
     return "🎈";
   }
 
+  /** Sílabas CV “directas” (bloque inicial: m, p, l, t, n, c, d, r, s, g, b, f, v). Sin H (muda). */
+  var VOCALES_SILABA = "AEIOU";
+  function silabasCartesianas(consonantes) {
+    var out = [];
+    var cons = String(consonantes || "").split("");
+    var vow = VOCALES_SILABA.split("");
+    cons.forEach(function (c) {
+      if (!c) return;
+      vow.forEach(function (v) {
+        out.push(normalizeToken(c + v));
+      });
+    });
+    return out.filter(Boolean);
+  }
+
+  /** En español, Q solo forma sílabas útiles con ue/ui (no qa, qe, qi, qo, qu sola). */
+  function esSilabaCvDosLetrasValida(s) {
+    var t = normalizeToken(s);
+    if (t.length !== 2) return true;
+    if (t.charAt(0) !== "q") return true;
+    return false;
+  }
+
+  var SILABAS_CV_FACIL = silabasCartesianas("MPLNCDRSTGBFV").filter(esSilabaCvDosLetrasValida);
+
+  /** Sílabas menos frecuentes en el primer bloque; Q solo como que/qui (no cartesianas con Q). */
+  var SILABAS_CV_INTER = silabasCartesianas("JKXZÑW")
+    .concat(["que", "qui"])
+    .map(normalizeToken)
+    .filter(Boolean)
+    .filter(esSilabaCvDosLetrasValida);
+
+  /** Sílabas de tres grafemas (grupos CCV y digraph + vocal). */
+  var SILABAS_TRES_LETRAS = [
+    "bla", "ble", "bli", "blo", "blu", "bra", "bre", "bri", "bro", "bru",
+    "cla", "cle", "cli", "clo", "clu", "cra", "cre", "cri", "cro", "cru",
+    "dra", "dre", "dri", "dro", "dru", "fla", "fle", "fli", "flo", "flu",
+    "fra", "fre", "fri", "fro", "fru", "gla", "gle", "gli", "glo", "glu",
+    "gra", "gre", "gri", "gro", "gru", "pla", "ple", "pli", "plo", "plu",
+    "pra", "pre", "pri", "pro", "pru", "tra", "tre", "tri", "tro", "tru",
+    "cha", "che", "chi", "cho", "chu"
+  ].map(normalizeToken).filter(Boolean);
+
+  function ejemploPalabraParaSilaba(syl) {
+    var s = normalizeToken(syl);
+    if (!s.length) return "casa";
+    var first = s.charAt(0).toUpperCase();
+    var words = WORDS_BY_LETTER[first];
+    if (words && words.length) return words[0];
+    return "casa";
+  }
+
+  function packSilaba(syllable) {
+    var w = ejemploPalabraParaSilaba(syllable);
+    return {
+      syllable: syllable,
+      word: w,
+      emoji: getEmoji(w),
+    };
+  }
+
+  /** Una sílaba al azar según dificultad del perfil (solo para el minijuego de sílabas). */
+  function randomSilabaItem() {
+    var d = getDifficulty();
+    var syl;
+    if (d === "facil") {
+      syl = randomItem(SILABAS_CV_FACIL);
+    } else if (d === "dificil") {
+      syl = randomItem(SILABAS_TRES_LETRAS);
+    } else {
+      var r = Math.random();
+      if (r < 0.4) {
+        syl = randomItem(SILABAS_TRES_LETRAS);
+      } else if (r < 0.95) {
+        syl = randomItem(SILABAS_CV_INTER);
+      } else {
+        syl = randomItem(SILABAS_CV_FACIL);
+      }
+    }
+    return packSilaba(syl);
+  }
+
   function getAllWords() {
     var all = [];
     LETTERS.forEach(function (letter) {
@@ -601,16 +681,11 @@
     rec.interimResults = false;
     rec.maxAlternatives = 1;
     btn.addEventListener("click", function () {
-      try {
-        rec.start();
-        if (statusEl) statusEl.textContent = 'Escuchando... di "siguiente".';
-      } catch (e) {}
+      rec.start();
+      if (statusEl) statusEl.textContent = 'Escuchando... di "siguiente".';
     });
     rec.onresult = function (ev) {
-      var t = "";
-      try {
-        t = ev.results[0][0].transcript.toLowerCase();
-      } catch (e) {}
+      var t = ev.results[0][0].transcript.toLowerCase();
       if (t.indexOf("siguiente") !== -1) {
         onNext();
         if (statusEl) statusEl.textContent = 'Comando detectado: "siguiente".';
@@ -637,6 +712,7 @@
     showBanner: showBanner,
     soundEnabled: soundEnabled,
     getAllWords: getAllWords,
+    randomSilabaItem: randomSilabaItem,
     randomItem: randomItem,
     sample: sample,
     shuffle: shuffle,
@@ -671,7 +747,7 @@
   function updateSoundControls() {
     var enabled = soundEnabled();
     var soundButtons = Array.prototype.slice.call(document.querySelectorAll(
-      "#btnEscuchar, #btnEscucharPalabra, #btnEscucharSilaba, #btnEscucharJuego, #btnSonidoLetra"
+      "#btnEscuchar, #btnEscucharPalabra, #btnEscucharSilaba, #btnEscucharCompletar, #btnEscucharJuego, #btnSonidoLetra"
     ));
     soundButtons.forEach(function (btn) {
       if (!enabled) {

@@ -1,30 +1,33 @@
-// js/juegos/silabas.js — Completar la letra que falta en una sílaba según la dificultad.
+// js/juegos/completar-palabras.js — Elegir la letra que falta para completar una palabra del diccionario.
 
 (function () {
   "use strict";
 
   var C = window.LetroCore;
-  if (!C || document.body.getAttribute("data-game") !== "silabas") return;
+  if (!C || document.body.getAttribute("data-game") !== "completar-palabras") return;
 
   var LETTERS = C.LETTERS;
   var VOCALES = "AEIOU";
   var OPCIONES_TOTAL = 4;
-  var text = document.getElementById("textoSilaba");
-  var hint = document.getElementById("ayudaSilaba");
-  var opts = document.getElementById("silabaOpciones");
-  var btnListen = document.getElementById("btnEscucharSilaba");
+  var emojiEl = document.getElementById("emojiPalabra");
+  var text = document.getElementById("textoPalabra");
+  var hint = document.getElementById("ayudaPalabra");
+  var opts = document.getElementById("palabraOpciones");
+  var btnListen = document.getElementById("btnEscucharCompletar");
   var btnNext = document.getElementById("btnSiguiente");
   var btnVoice = document.getElementById("btnVozSiguiente");
   if (!text || !opts || !btnListen || !btnNext) return;
 
   var current = null;
   var roundLocked = false;
+  var all = C.getAllWords().filter(function (r) {
+    return r && r.word && String(r.word).length >= 2;
+  });
 
   function esVocal(letra) {
     return VOCALES.indexOf(letra) !== -1;
   }
 
-  /** Tres letras incorrectas: si la correcta es vocal (p. ej. J_), solo consonantes incorrectas. */
   function letrasIncorrectas(correct) {
     var n = OPCIONES_TOTAL - 1;
     var pool;
@@ -40,11 +43,9 @@
     return C.sample(pool, Math.min(n, pool.length));
   }
 
-  function indiceLetraOculta(syllableUpper) {
-    var n = syllableUpper.length;
-    if (n <= 1) return 0;
-    if (n === 2) return 1;
-    return 1;
+  /** Misma convención que la maqueta original: 2ª letra si la palabra tiene más de 2 letras. */
+  function indiceLetraOculta(palabraUpper) {
+    return palabraUpper.length > 2 ? 1 : 0;
   }
 
   function deshabilitarOpciones() {
@@ -55,12 +56,15 @@
 
   function renderRound() {
     roundLocked = false;
-    current = C.randomSilabaItem();
-    var w = String(current.syllable || "").toUpperCase();
+    current = C.randomItem(all);
+    var w = String(current.word || "").toUpperCase();
     var idx = indiceLetraOculta(w);
     var correct = w.charAt(idx);
+    if (emojiEl) {
+      emojiEl.textContent = current.emoji || "🎈";
+    }
     text.textContent = w.slice(0, idx) + "_" + w.slice(idx + 1);
-    hint.textContent = "¿Qué letra falta para completar la sílaba?";
+    hint.textContent = "¿Qué letra falta para completar la palabra?";
     var malas = letrasIncorrectas(correct);
     var letters = C.shuffle([correct].concat(malas));
     opts.innerHTML = "";
@@ -88,7 +92,7 @@
   }
 
   btnListen.addEventListener("click", function () {
-    if (current && current.syllable) C.speak(current.syllable);
+    if (current && current.word) C.speak(current.word);
   });
   btnNext.addEventListener("click", renderRound);
   C.createVoiceNext(btnVoice, renderRound, null);

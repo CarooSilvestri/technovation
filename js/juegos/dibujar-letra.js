@@ -1,4 +1,3 @@
-// js/juegos/dibujar-letra.js — Trazar letras en el lienzo según la dificultad del perfil.
 
 (function () {
   "use strict";

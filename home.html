@@ -24,8 +24,11 @@
 
   <body>
     <div class="d-flex flex-column">
-      <header class="d-flex align-items-center px-3 py-2 justify-content-between gap-2 app-home-header">
-        <div class="d-flex align-items-center gap-2 min-w-0">
+      <header class="d-flex align-items-center px-3 py-2 app-home-header">
+        <div class="d-flex align-items-center justify-content-between gap-3 w-100">
+          <h3 class="app-home-greeting h5 mb-0 fw-semibold text-truncate flex-grow-1 min-w-0">
+            Hola, <span id="name"></span>
+          </h3>
           <a
             class="app-home-avatar app-home-avatar-link d-inline-flex align-items-center justify-content-center flex-shrink-0 rounded-circle text-decoration-none"
             href="perfil.html"
@@ -33,9 +36,6 @@
           >
             <span id="emoji" aria-hidden="true"></span>
           </a>
-          <h3 class="app-home-greeting h5 mb-0 fw-semibold text-truncate">
-            Hola, <span id="name"></span>
-          </h3>
         </div>
       </header>
 
@@ -97,15 +97,15 @@
           <li>
             <a
               class="app-home-card d-flex align-items-center gap-3 text-body text-decoration-none"
-              href="juego-unir-dibujos.html"
+              href="juego-completar-palabras.html"
             >
               <span
                 class="app-home-card-icon app-home-card-icon--sage d-inline-flex align-items-center justify-content-center flex-shrink-0 rounded-circle"
                 aria-hidden="true"
-              >📝</span>
+              >✏️</span>
               <span class="app-home-card-main flex-grow-1 min-w-0 d-flex flex-column gap-1">
                 <h6>Completar palabras</h6>
-                <span class="app-home-card-desc">Encuentra la letra que falta</span>
+                <span class="app-home-card-desc">La letra que falta en cada palabra</span>
               </span>
               <span class="app-home-card-chevron flex-shrink-0" aria-hidden="true">›</span>
             </a>
@@ -113,7 +113,23 @@
           <li>
             <a
               class="app-home-card d-flex align-items-center gap-3 text-body text-decoration-none"
-              href="juego-palabras.html"
+              href="juego-unir-dibujos.html"
+            >
+              <span
+                class="app-home-card-icon app-home-card-icon--sage d-inline-flex align-items-center justify-content-center flex-shrink-0 rounded-circle"
+                aria-hidden="true"
+              >🖼️</span>
+              <span class="app-home-card-main flex-grow-1 min-w-0 d-flex flex-column gap-1">
+                <h6>Palabra y dibujo</h6>
+                <span class="app-home-card-desc">Une cada palabra con su imagen</span>
+              </span>
+              <span class="app-home-card-chevron flex-shrink-0" aria-hidden="true">›</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="app-home-card d-flex align-items-center gap-3 text-body text-decoration-none"
+              href="juego-bien-escrita.html"
             >
               <span
                 class="app-home-card-icon app-home-card-icon--blue d-inline-flex align-items-center justify-content-center flex-shrink-0 rounded-circle"
@@ -126,7 +142,7 @@
               <span class="app-home-card-chevron flex-shrink-0" aria-hidden="true">›</span>
             </a>
           </li>
-          <li>
+          <li data-home-requires-sound>
             <a
               class="app-home-card d-flex align-items-center gap-3 text-body text-decoration-none"
               href="juego-letra-sonido.html"
@@ -150,7 +166,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="js/config.js"></script>
-    <script src="js/get_name.js"></script>
     <script src="js/pwa.js"></script>
     <script src="js/app.js"></script>
     <script>
@@ -158,6 +173,38 @@
         if (typeof window.syncLetroAvatarFromStorage === "function") {
           window.syncLetroAvatarFromStorage();
         }
+      })();
+    </script>
+    <script>
+      // Ocultar en la home la tarjeta del juego que solo tiene sentido con audio.
+      (function () {
+        "use strict";
+        var STORAGE_KEY = window.LETRO_CONFIG.STORAGE_KEY;
+
+        function sonidoDesactivado() {
+          var raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return false;
+          var p = JSON.parse(raw);
+          return p && typeof p === "object" && p.sonido === false;
+        }
+
+        function syncHomeSoundGames() {
+          document.querySelectorAll("[data-home-requires-sound]").forEach(
+            function (el) {
+              el.classList.toggle("d-none", sonidoDesactivado());
+            }
+          );
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", syncHomeSoundGames);
+        } else {
+          syncHomeSoundGames();
+        }
+        window.addEventListener("soundSettingChanged", syncHomeSoundGames);
+        window.addEventListener("storage", function (ev) {
+          if (ev.key === STORAGE_KEY) syncHomeSoundGames();
+        });
       })();
     </script>
   </body>

@@ -18,12 +18,15 @@
   };
 
   window.PAGES = {
+    INDEX: "index.html",
     REGISTER: "register.html",
     HOME: "home.html",
     PROFILE: "perfil.html",
     GAME_UNIR_DIBUJOS: "juego-unir-dibujos.html",
     GAME_UNIR_LETRAS: "juego-unir-letras.html",
     GAME_SILABAS: "juego-silabas.html",
+    GAME_BIEN_ESCRITA: "juego-bien-escrita.html",
+    GAME_COMPLETAR_PALABRAS: "juego-completar-palabras.html",
   };
 
   window.AGES = {

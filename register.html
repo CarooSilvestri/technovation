@@ -26,9 +26,10 @@
       referrerpolicy="no-referrer"
     />
     <script src="js/config.js"></script>
+    <script src="js/nivel-cards.js"></script>
   </head>
 
-  <body data-registro>
+  <body id="app-page-registro">
     <header class="app-registro-header pt-4 pb-3 border-bottom border-secondary-subtle rounded-bottom-4">
       <div
         class="container-fluid d-flex flex-column align-items-center gap-2"
@@ -90,48 +91,19 @@
           </div>
         </div>
 
-        <!-- Nivel -->
+        <!-- Nivel (markup desde js/nivel-cards.js) -->
         <div id="step-2" hidden>
-          <h2 class="text-center mb-3">Elige tu nivel</h2>
+          <h2 class="text-center mb-3" id="nivel-title">Elige tu nivel</h2>
           <p class="app-nivel-subtitle">
             Configura el desafío perfecto para comenzar tu viaje de aprendizaje.
           </p>
 
-          <div class="d-flex flex-column gap-2" role="radiogroup" aria-labelledby="nivel-title">
-            <label class="app-nivel-card app-nivel-card--facil">
-              <input type="radio" name="dificultad" value="facil" class="visually-hidden" checked />
-              <span class="app-nivel-badge">RECOMENDADO</span>
-              <div class="d-flex gap-3">
-                <span class="app-nivel-icon" aria-hidden="true">👶</span>
-                <div class="app-nivel-copy">
-                  <span class="app-nivel-name">Fácil</span>
-                  <span class="app-nivel-desc">Solo vocales para un comienzo suave.</span>
-                </div>
-              </div>
-            </label>
-
-            <label class="app-nivel-card app-nivel-card--intermedio">
-              <input type="radio" name="dificultad" value="intermedio" class="visually-hidden" />
-              <div class="d-flex gap-3">
-                <span class="app-nivel-icon" aria-hidden="true">📖</span>
-                <div class="app-nivel-copy">
-                  <span class="app-nivel-name">Intermedio</span>
-                  <span class="app-nivel-desc">Vocales + consonantes para frases.</span>
-                </div>
-              </div>
-            </label>
-
-            <label class="app-nivel-card app-nivel-card--dificil">
-              <input type="radio" name="dificultad" value="dificil" class="visually-hidden" />
-              <div class="d-flex gap-3">
-                <span class="app-nivel-icon" aria-hidden="true">🎓</span>
-                <div class="app-nivel-copy">
-                  <span class="app-nivel-name">Difícil</span>
-                  <span class="app-nivel-desc">Abecedario completo. El gran reto.</span>
-                </div>
-              </div>
-            </label>
-          </div>
+          <div
+            id="registro-nivel-mount"
+            class="d-flex flex-column gap-2"
+            role="radiogroup"
+            aria-labelledby="nivel-title"
+          ></div>
 
           <p class="app-nivel-footnote">
             Podrás cambiar la dificultad en cualquier momento desde ajustes.
@@ -152,7 +124,7 @@
             id="btnSubmit"
             hidden
           >
-            Guardar 
+            ¡A jugar!
           </button>
         </div>
       </form>

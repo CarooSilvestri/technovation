@@ -58,9 +58,16 @@
         "use strict";
 
         function safeLoadProfile() {
-            var user = localStorage.getItem(window.LETRO_CONFIG.STORAGE_KEY);
-            if (!user) return null;
-            return JSON.parse(user);
+          var user = localStorage.getItem(window.LETRO_CONFIG.STORAGE_KEY);
+          if (!user) return null;
+          var p = JSON.parse(user);
+          if (
+            !p ||
+            typeof p !== "object" ||
+            !String(p.nombre || "").trim()
+          )
+            return null;
+          return p;
         }
 
         window.setTimeout(function () {

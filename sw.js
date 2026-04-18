@@ -3,7 +3,7 @@
 
 "use strict";
 
-const CACHE_VERSION = "letro-pwa-v2";
+const CACHE_VERSION = "letro-pwa-v5";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
@@ -12,17 +12,21 @@ const PRECACHE_URLS = [
   "./perfil.html",
   "./juego-dibujar-letra.html",
   "./juego-letra-sonido.html",
-  "./juego-palabras.html",
+  "./juego-bien-escrita.html",
   "./juego-silabas.html",
+  "./juego-completar-palabras.html",
   "./juego-unir-dibujos.html",
   "./juego-unir-letras.html",
   "./css/styles.css",
   "./js/config.js",
+  "./js/nivel-cards.js",
   "./js/app.js",
+  "./js/perfil/perfil.js",
   "./js/juegos/core.js",
   "./js/juegos/letra-sonido.js",
   "./js/juegos/palabras.js",
   "./js/juegos/silabas.js",
+  "./js/juegos/completar-palabras.js",
   "./js/juegos/unir-dibujos.js",
   "./js/juegos/unir-letras.js",
   "./js/juegos/dibujar-letra.js",

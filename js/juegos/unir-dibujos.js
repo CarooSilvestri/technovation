@@ -6,15 +6,13 @@
   var C = window.LetroCore;
   if (!C || document.body.getAttribute("data-game") !== "unir-dibujos") return;
 
-  var wordsEl = document.getElementById("listaPalabras");
-  var drawsEl = document.getElementById("listaDibujos");
-  var selEl = document.getElementById("listaSelects");
+  var boardEl = document.getElementById("listaFilas");
   var btnCheck = document.getElementById("btnComprobar");
   var btnListen = document.getElementById("btnEscucharJuego");
   var btnNext = document.getElementById("btnSiguiente");
   var btnVoice = document.getElementById("btnVozSiguiente");
   var state = document.getElementById("estadoJuego");
-  if (!wordsEl || !drawsEl || !selEl || !btnCheck || !btnNext) return;
+  if (!boardEl || !btnCheck || !btnNext) return;
 
   var round = [];
   var emojis = [];
@@ -23,7 +21,7 @@
   var selectedEmoji = null;
 
   function redrawLines() {
-    var root = C.nearestMatchRoot(wordsEl);
+    var root = C.nearestMatchRoot(boardEl);
     if (!root) return;
     var svg = C.createOrGetSvgOverlay(root);
     if (!svg) return;
@@ -32,8 +30,8 @@
     Object.keys(pairs).forEach(function (k) {
       var wi = parseInt(k, 10);
       var ei = pairs[k];
-      var wBtn = wordsEl.querySelector('[data-word-idx="' + wi + '"]');
-      var eBtn = drawsEl.querySelector('[data-emoji-idx="' + ei + '"]');
+      var wBtn = boardEl.querySelector('[data-word-idx="' + wi + '"]');
+      var eBtn = boardEl.querySelector('[data-emoji-idx="' + ei + '"]');
       if (!wBtn || !eBtn) return;
       var a = C.getCenterWithin(wBtn, root);
       var b = C.getCenterWithin(eBtn, root);
@@ -44,10 +42,10 @@
   function clearSelections() {
     selectedWord = null;
     selectedEmoji = null;
-    Array.prototype.forEach.call(wordsEl.querySelectorAll(".match-item-btn"), function (b) {
+    Array.prototype.forEach.call(boardEl.querySelectorAll(".match-word-btn"), function (b) {
       b.classList.remove("is-selected");
     });
-    Array.prototype.forEach.call(drawsEl.querySelectorAll(".match-item-btn"), function (b) {
+    Array.prototype.forEach.call(boardEl.querySelectorAll(".match-emoji-btn"), function (b) {
       b.classList.remove("is-selected");
     });
   }
@@ -71,42 +69,56 @@
     );
     pairs = {};
     clearSelections();
-    wordsEl.innerHTML = "";
-    drawsEl.innerHTML = "";
-    selEl.innerHTML = "";
-    round.forEach(function (r) {
-      var d = document.createElement("button");
-      d.type = "button";
-      d.className = "match-item match-item-btn";
-      d.style.fontSize = "1.05rem";
-      d.textContent = r.word.toUpperCase();
-      d.setAttribute("data-word-idx", String(wordsEl.childElementCount));
-      d.addEventListener("click", function () {
-        selectedWord = parseInt(d.getAttribute("data-word-idx"), 10);
-        Array.prototype.forEach.call(wordsEl.querySelectorAll(".match-item-btn"), function (b) {
-          b.classList.toggle("is-selected", b === d);
+    boardEl.innerHTML = "";
+    round.forEach(function (r, rowIdx) {
+      var row = document.createElement("div");
+      row.className = "row g-5 align-items-stretch match-pair-row";
+
+      var colWord = document.createElement("div");
+      colWord.className = "col-6 d-flex align-items-stretch";
+      var wBtn = document.createElement("button");
+      wBtn.type = "button";
+      wBtn.className =
+        "match-item match-item-btn match-word-btn w-100 h-100";
+      wBtn.style.fontSize = "1.05rem";
+      wBtn.textContent = r.word.toUpperCase();
+      wBtn.setAttribute("data-word-idx", String(rowIdx));
+      wBtn.addEventListener("click", function () {
+        selectedWord = parseInt(wBtn.getAttribute("data-word-idx"), 10);
+        Array.prototype.forEach.call(boardEl.querySelectorAll(".match-word-btn"), function (b) {
+          b.classList.toggle("is-selected", b === wBtn);
         });
         tryConnect();
       });
-      wordsEl.appendChild(d);
-    });
-    emojis.forEach(function (e) {
-      var d = document.createElement("button");
-      d.type = "button";
-      d.className = "match-item match-item-btn";
-      d.style.fontSize = "3rem";
-      d.innerHTML = "<span aria-hidden='true'>" + e + "</span>";
-      d.setAttribute("data-emoji-idx", String(drawsEl.childElementCount));
-      d.addEventListener("click", function () {
-        selectedEmoji = parseInt(d.getAttribute("data-emoji-idx"), 10);
-        Array.prototype.forEach.call(drawsEl.querySelectorAll(".match-item-btn"), function (b) {
-          b.classList.toggle("is-selected", b === d);
+      colWord.appendChild(wBtn);
+
+      var colEmoji = document.createElement("div");
+      colEmoji.className = "col-6 unir-dibujos-col-dibujo";
+      var emojiWrap = document.createElement("div");
+      emojiWrap.className =
+        "unir-dibujos-emoji-wrap d-flex justify-content-center align-items-stretch w-100";
+      var eBtn = document.createElement("button");
+      eBtn.type = "button";
+      eBtn.className =
+        "match-item match-item-btn match-emoji-btn h-100";
+      eBtn.style.fontSize = "3rem";
+      eBtn.innerHTML = "<span aria-hidden='true'>" + emojis[rowIdx] + "</span>";
+      eBtn.setAttribute("data-emoji-idx", String(rowIdx));
+      eBtn.addEventListener("click", function () {
+        selectedEmoji = parseInt(eBtn.getAttribute("data-emoji-idx"), 10);
+        Array.prototype.forEach.call(boardEl.querySelectorAll(".match-emoji-btn"), function (b) {
+          b.classList.toggle("is-selected", b === eBtn);
         });
         tryConnect();
       });
-      drawsEl.appendChild(d);
+      emojiWrap.appendChild(eBtn);
+      colEmoji.appendChild(emojiWrap);
+
+      row.appendChild(colWord);
+      row.appendChild(colEmoji);
+      boardEl.appendChild(row);
     });
-    state.textContent = "";
+    if (state) state.textContent = "";
     redrawLines();
   }
 
@@ -117,14 +129,18 @@
       if (pick == null) ok = false;
       else if (round[i].emoji !== emojis[pick]) ok = false;
     }
-    state.className = "small mt-2 " + (ok ? "text-success" : "text-danger");
-    state.textContent = ok ? "Correcto." : "Hay uniones incorrectas.";
+    if (state) {
+      state.className = "small mt-2 " + (ok ? "text-success" : "text-danger");
+      state.textContent = ok ? "Correcto." : "Hay uniones incorrectas.";
+    }
     C.showBanner(ok);
     if (ok) setTimeout(renderRound, 2000);
   });
   if (btnListen) {
     btnListen.addEventListener("click", function () {
-      var words = round.map(function (r) { return r.word; }).join(", ");
+      var words = round.map(function (r) {
+        return r.word;
+      }).join(", ");
       C.speak(words);
     });
   }

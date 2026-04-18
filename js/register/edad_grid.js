@@ -1,4 +1,4 @@
-/** Construye la grilla de edades (una vez) y escribe el valor en el input oculto #edad para el submit. */
+// js/register/edad_grid.js — Grilla de edades y valor en el input oculto #edad.
 export function buildEdadGrid() {
   var edadInput = document.getElementById("edad");
   var edadGrid = document.getElementById("edad-grid");

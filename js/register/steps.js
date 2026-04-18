@@ -1,4 +1,4 @@
-// Valida el paso de nombre: texto no vacío tras trim y foco si falla.
+// js/register/steps.js — Pasos del wizard de registro y validación por paso.
 function validateNombreStep(nombreInput) {
   var trimmed = nombreInput && nombreInput.value.trim();
   if (!trimmed) {
@@ -24,10 +24,10 @@ export function createRegistroSteps(opts) {
     ? Array.prototype.slice.call(progressEl.querySelectorAll(".step-bar"))
     : [];
 
-  var btnBack = document.getElementById("btnBack");
-  var btnNext = document.getElementById("btnNext");
-  var btnSubmit = document.getElementById("btnSubmit");
-  
+  var btnBack = opts.btnBack;
+  var btnNext = opts.btnNext;
+  var btnSubmit = opts.btnSubmit;
+
   var nombreInput = opts.nombreInput;
   var edadInput = opts.edadInput;
 
@@ -41,7 +41,7 @@ export function createRegistroSteps(opts) {
 
     if (index === 1) {
       if (!edadInput) return false;
-      var edadRaw = String(edadInput.value).trim();
+      var edadRaw = String(edadInput.value);
       if (edadRaw === "") return false;
       var edadNum = parseInt(edadRaw, 10);
       return !Number.isNaN(edadNum);

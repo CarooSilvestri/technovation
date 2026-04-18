@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- app/juego-silabas.html — Completar sílaba tipo M _ con opciones (maqueta con vocales). -->
+<!-- app/juego-bien-escrita.html — Elegir la palabra bien escrita entre opciones (maqueta). -->
 <html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#6c757d" />
-    <title>Letro</title>
+    <title>Letro — Palabras bien escritas</title>
     <link rel="manifest" href="manifest.json" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -19,7 +19,8 @@
     />
     <link href="css/styles.css" rel="stylesheet" />
   </head>
-  <body data-game="silabas" id="app-page-juego">
+  
+  <body data-game="bien-escrita" id="app-page-juego">
     <header class="d-flex align-items-center px-3 py-2 app-home-header">
       <div class="d-flex align-items-center justify-content-between gap-3 w-100">
         <a
@@ -41,25 +42,24 @@
     </header>
 
     <main class="container-fluid py-4">
-      <h3 class="text-center">Armar sílabas</h3>
-      <p class="app-home-lead text-center">Elige la letra que falta para completar la sílaba.</p>
+      <h3 class="text-center">¿Está bien escrita?</h3>
+      <p class="app-home-lead text-center">Elige la palabra que está escrita correctamente.</p>
 
-      <div class="card p-4 text-center">
-        <p class="display-3 fw-bold mb-1" style="letter-spacing: 0.15em" id="textoSilaba">M _</p>
-        <p class="text-muted small mb-0" id="ayudaSilaba">¿Qué letra falta?</p>
-        <div class="mt-3" id="sonidoLetra">
-          <button type="button" class="btn btn-outline-primary btn-sm" id="btnEscucharSilaba">
-            🔊 Escuchar sílaba
+      <div class="card app-card mb-3">
+        <div class="card-body d-flex flex-column align-items-center gap-2 text-center">
+          <p class="fs-4 mb-0 w-100" id="pistaTexto">Cargando…</p>
+          <button type="button" class="btn btn-outline-primary btn-sm" id="btnEscucharPalabra">
+            🔊 Escuchar palabra
           </button>
         </div>
       </div>
 
-      <div class="row g-3 mt-2" id="silabaOpciones"></div>
+      <div class="d-grid gap-2" id="palabraOpciones"></div>
 
-      <div class="d-flex gap-2 mt-4">
+      <div class="d-flex gap-2 mt-3">
         <button type="button" class="btn btn-outline-primary w-50" id="btnVozSiguiente">🎤 Decir "siguiente"</button>
-        <button type="button" class="btn btn-secondary btn-lg w-50" id="btnSiguiente">Siguiente</button>
-         </div>
+        <button type="button" class="btn btn-primary btn-lg w-50" id="btnSiguiente">Siguiente</button>
+      </div>
     </main>
 
     <script
@@ -70,7 +70,7 @@
     <script src="js/pwa.js"></script>
     <script src="js/app.js"></script>
     <script src="js/juegos/core.js"></script>
-    <script src="js/juegos/silabas.js"></script>
+    <script src="js/juegos/palabras.js"></script>
     <script src="js/emoji-extended.js"></script>
   </body>
 </html>

@@ -1,3 +1,4 @@
+// js/register/register.js — Wizard de alta y persistencia del perfil en localStorage.
 import { buildAvatarGrid } from "./avatar_grid.js";
 import { buildEdadGrid } from "./edad_grid.js";
 import { createRegistroSteps } from "./steps.js";
@@ -13,13 +14,19 @@ import { createRegistroSteps } from "./steps.js";
 
     var btnSubmit = document.getElementById("btnSubmit");
 
-    const nombreInput = document.getElementById("nombre");
-    const edadInput = document.getElementById("edad");
-    const dificultadInput = document.querySelector('input[name="dificultad"]:checked');
-    const avatarInput = document.getElementById("avatar");
+    var nombreInput = document.getElementById("nombre");
+    var edadInput = document.getElementById("edad");
+    var avatarInput = document.getElementById("avatar");
 
     buildAvatarGrid();
     buildEdadGrid();
+
+    var nivelMount = document.getElementById("registro-nivel-mount");
+    if (nivelMount && window.LetroNivelCards) {
+      window.LetroNivelCards.render(nivelMount, "registro", {
+        defaultId: "facil",
+      });
+    }
 
     var registroSteps = createRegistroSteps({
       btnBack: btnBack,
@@ -34,16 +41,20 @@ import { createRegistroSteps } from "./steps.js";
     registroSteps.bindNavigation();
 
     function collectProfile() {
+      var checked = document.querySelector('input[name="dificultad"]:checked');
       return {
         nombre: nombreInput.value,
         edad: edadInput.value,
-        dificultad: dificultadInput.value,
+        dificultad: checked ? checked.value : "facil",
         avatar: avatarInput.value,
       };
     }
 
     btnSubmit.addEventListener("click", function () {
-     localStorage.setItem(window.LETRO_CONFIG.STORAGE_KEY, JSON.stringify(collectProfile()));
+      localStorage.setItem(
+        window.LETRO_CONFIG.STORAGE_KEY,
+        JSON.stringify(collectProfile())
+      );
       window.location.href = window.PAGES.HOME;
     });
 

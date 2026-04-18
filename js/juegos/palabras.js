@@ -1,10 +1,10 @@
-// js/juegos/palabras.js — Elegir la palabra que corresponde al dibujo.
+// js/juegos/palabras.js — Elegir la palabra bien escrita entre opciones.
 
 (function () {
   "use strict";
 
   var C = window.LetroCore;
-  if (!C || document.body.getAttribute("data-game") !== "palabras") return;
+  if (!C || document.body.getAttribute("data-game") !== "bien-escrita") return;
 
   var clue = document.getElementById("pistaTexto");
   var options = document.getElementById("palabraOpciones");
@@ -42,10 +42,7 @@
     clue.innerHTML =
       "<div class='text-center' style='font-size: 6rem; margin-bottom: 1rem;' aria-hidden='true'>" +
       current.emoji +
-      "</div>" +
-      "<span class='d-block text-center'>" +
-      current.emoji +
-      " Identifica el nombre</span>";
+      "</div>";
     var c = current.word.toUpperCase();
     var nivel = C.getDifficulty();
     var nOpciones = nivel === "facil" ? 3 : nivel === "intermedio" ? 4 : 5;

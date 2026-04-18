@@ -1,4 +1,3 @@
-/** Renderiza avatares y guarda SOLO el label en #avatar. */
 export function buildAvatarGrid() {
   var avatarGrid = document.getElementById("avatar-grid");
   var avatarInput = document.getElementById("avatar");
@@ -33,7 +32,7 @@ export function buildAvatarGrid() {
     col.appendChild(pick);
     avatarGrid.appendChild(col);
 
-    if (i === 0 && avatarInput && !String(avatarInput.value || "").trim()) {
+    if (i === 0 && avatarInput && !avatarInput.value) {
       avatarInput.value = avatar.label;
     }
   });

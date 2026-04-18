@@ -95,9 +95,9 @@
     var root = document.documentElement;
     try {
       var p = loadProfile();
-      root.classList.toggle("letritas-bw-on", !!(p && p.bw));
+      root.classList.toggle("letro-bw-on", !!(p && p.bw));
     } catch (e) {
-      root.classList.remove("letritas-bw-on");
+      root.classList.remove("letro-bw-on");
     }
   }
 
@@ -132,7 +132,7 @@
 
     var p = loadProfile();
     if (!p || !String(p.nombre || "").trim()) {
-      window.location.href = "registro.html";
+      window.location.href = "register.html";
       return;
     }
 
@@ -320,7 +320,7 @@
         try {
           localStorage.removeItem(STORAGE_KEY);
         } catch (e) {}
-        document.documentElement.classList.remove("letritas-bw-on");
+        document.documentElement.classList.remove("letro-bw-on");
         window.location.href = "index.html";
       });
     }

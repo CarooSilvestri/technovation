@@ -552,6 +552,11 @@ p {
 }
 
 
+/* UNIR LETRAS */
+.letra {
+  width: fit-content;
+}
+
 
 
 [data-registro] .app-registro-input,
@@ -907,7 +912,7 @@ html.letro-bw-on {
   border-radius: 1.25rem;
   background: #fff;
   border: 1px solid rgba(45, 53, 64, 0.08);
-  box-shadow: var(--letritas-shadow);
+  box-shadow: var(--letro-shadow);
   min-height: 220px;
   overflow: hidden;
 }
@@ -959,7 +964,7 @@ html.letro-bw-on {
   border-radius: 1rem;
   background: #fff;
   border: 1px solid rgba(45, 53, 64, 0.08);
-  box-shadow: var(--letritas-shadow-sm);
+  box-shadow: var(--letro-shadow-sm);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -980,8 +985,8 @@ html.letro-bw-on {
 }
 
 .match-item-btn.is-selected {
-  border-color: var(--letritas-blue);
-  box-shadow: 0 0 0 3px rgba(143, 177, 204, 0.22), var(--letritas-shadow-sm);
+  border-color: var(--letro-blue);
+  box-shadow: 0 0 0 3px rgba(143, 177, 204, 0.22), var(--letro-shadow-sm);
 }
 
 .match-lines {
@@ -1008,7 +1013,7 @@ html.letro-bw-on {
 }
 
 
-[data-game="unir-mayusculas"] .match-root .match-item {
+[data-game="unir-letras"] .match-root .match-item {
   min-height: 2.7rem;
   padding: 0.35rem 0.45rem;
   font-size: 1.15rem;
@@ -1149,7 +1154,3 @@ html.letro-bw-on {
   transform: translateX(-50%) translateY(0);
 }
 
-/* Modo blanco y negro global */
-html.letritas-bw-on {
-  filter: grayscale(1) contrast(1.05);
-}

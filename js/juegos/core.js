@@ -1,7 +1,9 @@
+// js/juegos/core.js — Datos comunes, audio y utilidades para los minijuegos.
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "letritas_perfil";
+  var STORAGE_KEY =
+    (window.LETRO_CONFIG && window.LETRO_CONFIG.STORAGE_KEY) || "letro_profile";
   var LETTERS = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,Ñ,O,P,Q,R,S,T,U,V,W,X,Y,Z".split(",");
 
   var WORDS_BY_LETTER = {
@@ -226,6 +228,13 @@
     }
   }
 
+  /** Lo que guarda el perfil: facil, intermedio o dificil (si no, facil). */
+  function getDifficulty() {
+    var d = loadProfile().dificultad;
+    if (d === "intermedio" || d === "dificil") return d;
+    return "facil";
+  }
+
   function soundEnabled() {
     return loadProfile().sonido !== false;
   }
@@ -257,6 +266,14 @@
     if (es) u.voice = es;
     window.speechSynthesis.speak(u);
     return true;
+  }
+
+  /** Corta la síntesis de voz al cambiar de pestaña o abandonar la pantalla. */
+  function stopSpeech() {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.pause();
+      window.speechSynthesis.cancel();
+    }
   }
 
   function showBanner(ok) {
@@ -603,450 +620,52 @@
     };
   }
 
-  function initLetraSonido() {
-    if (document.body.getAttribute("data-game") !== "letra-sonido") return;
-    var optionsEl = document.getElementById("letraOpciones");
-    var btnListen = document.getElementById("btnEscuchar");
-    var btnNext = document.getElementById("btnSiguiente");
-    var btnVoice = document.getElementById("btnVozSiguiente");
-    var status = document.getElementById("estadoJuego");
-    var listenState = document.getElementById("estadoEscucha");
-    if (!optionsEl || !btnListen || !btnNext) return;
-
-    var current = null;
-    var all = getAllWords();
-
-    function renderRound() {
-      current = randomItem(all);
-      var correct = current.letter;
-      var wrong = sample(
-        LETTERS.filter(function (l) {
-          return l !== correct;
-        }),
-        5
-      );
-      var options = shuffle([correct].concat(wrong));
-      optionsEl.innerHTML = "";
-      options.forEach(function (op) {
-        var col = document.createElement("div");
-        col.className = "col-4";
-        var btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "btn btn-outline-dark btn-lg w-100 py-3 fs-3";
-        btn.textContent = op;
-        btn.addEventListener("click", function () {
-          var ok = op === correct;
-          status.className = "small mt-2 " + (ok ? "text-success" : "text-danger");
-          status.textContent = ok ? "Correcto." : "Intenta otra vez.";
-          showBanner(ok);
-          if (ok) setTimeout(renderRound, 2000);
-        });
-        col.appendChild(btn);
-        optionsEl.appendChild(col);
-      });
-      status.className = "small mt-2 text-muted";
-      status.textContent = "";
-    }
-
-    btnListen.addEventListener("click", function () {
-      if (!current) return;
-      var ok = speak(current.letter);
-      if (listenState) {
-        listenState.textContent = ok
-          ? "Sonido reproducido."
-          : "Sonido desactivado.";
-      }
+  /** Oculta contenedores marcados cuando el sonido está desactivado (minijuegos). */
+  function syncSoundBlocks() {
+    var enabled = soundEnabled();
+    var blocks = document.querySelectorAll("#sonidoLetra");
+    blocks.forEach(function (element) {
+      element.classList.toggle("d-none", !enabled);
     });
-    btnNext.addEventListener("click", renderRound);
-    createVoiceNext(btnVoice, renderRound, status);
-    renderRound();
   }
 
-  function initPalabras() {
-    if (document.body.getAttribute("data-game") !== "palabras") return;
-    var clue = document.getElementById("pistaTexto");
-    var options = document.getElementById("palabraOpciones");
-    var state = document.getElementById("estadoJuego");
-    var btnListen = document.getElementById("btnEscucharPalabra");
-    var btnNext = document.getElementById("btnSiguiente");
-    var btnVoice = document.getElementById("btnVozSiguiente");
-    if (!clue || !options || !btnListen || !btnNext) return;
+  window.LetroCore = {
+    LETTERS: LETTERS,
+    getDifficulty: getDifficulty,
+    speak: speak,
+    stopSpeech: stopSpeech,
+    showBanner: showBanner,
+    soundEnabled: soundEnabled,
+    getAllWords: getAllWords,
+    randomItem: randomItem,
+    sample: sample,
+    shuffle: shuffle,
+    makeWrongWord: makeWrongWord,
+    createVoiceNext: createVoiceNext,
+    nearestMatchRoot: nearestMatchRoot,
+    clearChildren: clearChildren,
+    getCenterWithin: getCenterWithin,
+    createOrGetSvgOverlay: createOrGetSvgOverlay,
+    resizeSvgToRoot: resizeSvgToRoot,
+    drawCurvedLine: drawCurvedLine,
+    getWordPhotoUrl: getWordPhotoUrl,
+    syncSoundBlocks: syncSoundBlocks,
+  };
 
-    var current = null;
-    var all = getAllWords();
-
-    function renderRound() {
-      current = randomItem(all);
-      clue.innerHTML =
-        "<div class='text-center' style='font-size: 6rem; margin-bottom: 1rem;' aria-hidden='true'>" +
-        current.emoji +
-        "</div>" +
-        "<span class='d-block text-center'>" +
-        current.emoji +
-        " Identifica el nombre</span>";
-      var c = current.word.toUpperCase();
-      var a = makeWrongWord(c);
-      var b = makeWrongWord(c + "S").replace("SS", "S");
-      var arr = shuffle([c, a, b]);
-      options.innerHTML = "";
-      arr.forEach(function (w) {
-        var btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "btn btn-light border btn-lg text-center py-3";
-        btn.textContent = w;
-        btn.addEventListener("click", function () {
-          var ok = w === c;
-          if (state) {
-            state.className = "alert mt-4 mb-0 small " + (ok ? "alert-success" : "alert-warning");
-            state.textContent = ok ? "Correcto." : "No, prueba otra opción.";
-          }
-          showBanner(ok);
-          if (ok) setTimeout(renderRound, 2000); // Auto next after 2 seconds
-        });
-        options.appendChild(btn);
-      });
-      if (state) {
-        state.className = "alert alert-info mt-4 mb-0 small";
-        state.textContent = "Elige una opción.";
-      }
-    }
-
-    btnListen.addEventListener("click", function () {
-      if (current) speak(current.word);
-    });
-    btnNext.addEventListener("click", renderRound);
-    createVoiceNext(btnVoice, renderRound, state);
-    renderRound();
-  }
-
-  function initSilabas() {
-    if (document.body.getAttribute("data-game") !== "silabas") return;
-    var text = document.getElementById("textoSilaba");
-    var hint = document.getElementById("ayudaSilaba");
-    var emoji = document.getElementById("emojiSilaba");
-    var opts = document.getElementById("silabaOpciones");
-    var state = document.getElementById("estadoJuego");
-    var btnListen = document.getElementById("btnEscucharSilaba");
-    var btnNext = document.getElementById("btnSiguiente");
-    var btnVoice = document.getElementById("btnVozSiguiente");
-    if (!text || !opts || !btnListen || !btnNext) return;
-
-    var current = null;
-    var idx = 1;
-    var all = getAllWords();
-
-    function renderRound() {
-      current = randomItem(all);
-      var w = current.word.toUpperCase();
-      idx = w.length > 2 ? 1 : 0;
-      var correct = w[idx];
-      text.textContent = w.slice(0, idx) + "_" + w.slice(idx + 1);
-      hint.textContent = "Completa la palabra";
-      emoji.innerHTML =
-        "<div style='font-size: 5rem; margin-bottom: 1rem;' aria-hidden='true'>" +
-        current.emoji +
-        "</div>" +
-        "<span class='d-block fs-6'>" +
-        current.emoji +
-        "</span>";
-      var letters = shuffle([correct].concat(sample(LETTERS.filter(function (l) { return l !== correct; }), 3)));
-      opts.innerHTML = "";
-      letters.forEach(function (l) {
-        var col = document.createElement("div");
-        col.className = "col-6";
-        var btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "btn btn-outline-primary btn-lg w-100 py-4 fs-2";
-        btn.textContent = l;
-        btn.addEventListener("click", function () {
-          if (l === correct) {
-            text.textContent = w;
-            state.className = "small text-success mt-2";
-            state.textContent = "Muy bien.";
-            showBanner(true);
-            setTimeout(renderRound, 2000);
-          } else {
-            state.className = "small text-danger mt-2";
-            state.textContent = "Intenta de nuevo.";
-            showBanner(false);
-          }
-        });
-        col.appendChild(btn);
-        opts.appendChild(col);
-      });
-      state.textContent = "";
-    }
-
-    btnListen.addEventListener("click", function () {
-      if (current) speak(current.word);
-    });
-    btnNext.addEventListener("click", renderRound);
-    createVoiceNext(btnVoice, renderRound, state);
-    renderRound();
-  }
-
-  function initUnirDibujos() {
-    if (document.body.getAttribute("data-game") !== "unir-dibujos") return;
-    var wordsEl = document.getElementById("listaPalabras");
-    var drawsEl = document.getElementById("listaDibujos");
-    var selEl = document.getElementById("listaSelects");
-    var btnCheck = document.getElementById("btnComprobar");
-    var btnListen = document.getElementById("btnEscucharJuego");
-    var btnNext = document.getElementById("btnSiguiente");
-    var btnVoice = document.getElementById("btnVozSiguiente");
-    var state = document.getElementById("estadoJuego");
-    if (!wordsEl || !drawsEl || !selEl || !btnCheck || !btnNext) return;
-
-    var round = [];
-    var emojis = [];
-    var pairs = {}; // wordIndex -> emojiIndex
-    var selectedWord = null;
-    var selectedEmoji = null;
-
-    function redrawLines() {
-      var root = nearestMatchRoot(wordsEl);
-      if (!root) return;
-      var svg = createOrGetSvgOverlay(root);
-      if (!svg) return;
-      resizeSvgToRoot(svg, root);
-      clearChildren(svg);
-      Object.keys(pairs).forEach(function (k) {
-        var wi = parseInt(k, 10);
-        var ei = pairs[k];
-        var wBtn = wordsEl.querySelector('[data-word-idx="' + wi + '"]');
-        var eBtn = drawsEl.querySelector('[data-emoji-idx="' + ei + '"]');
-        if (!wBtn || !eBtn) return;
-        var a = getCenterWithin(wBtn, root);
-        var b = getCenterWithin(eBtn, root);
-        drawCurvedLine(svg, a, b, "var(--letritas-blue)", "w" + wi);
-      });
-    }
-
-    function clearSelections() {
-      selectedWord = null;
-      selectedEmoji = null;
-      Array.prototype.forEach.call(wordsEl.querySelectorAll(".match-item-btn"), function (b) {
-        b.classList.remove("is-selected");
-      });
-      Array.prototype.forEach.call(drawsEl.querySelectorAll(".match-item-btn"), function (b) {
-        b.classList.remove("is-selected");
-      });
-    }
-
-    function tryConnect() {
-      if (selectedWord == null || selectedEmoji == null) return;
-      pairs[String(selectedWord)] = selectedEmoji;
-      clearSelections();
-      redrawLines();
-    }
-
-    function renderRound() {
-      round = sample(getAllWords(), 4);
-      emojis = shuffle(
-        round.map(function (r) {
-          return r.emoji;
-        })
-      );
-      pairs = {};
-      clearSelections();
-      wordsEl.innerHTML = "";
-      drawsEl.innerHTML = "";
-      selEl.innerHTML = "";
-      round.forEach(function (r) {
-        var d = document.createElement("button");
-        d.type = "button";
-        d.className = "match-item match-item-btn";
-        d.style.fontSize = "1.05rem";
-        d.textContent = r.word.toUpperCase();
-        d.setAttribute("data-word-idx", String(wordsEl.childElementCount));
-        d.addEventListener("click", function () {
-          selectedWord = parseInt(d.getAttribute("data-word-idx"), 10);
-          Array.prototype.forEach.call(wordsEl.querySelectorAll(".match-item-btn"), function (b) {
-            b.classList.toggle("is-selected", b === d);
-          });
-          tryConnect();
-        });
-        wordsEl.appendChild(d);
-      });
-      emojis.forEach(function (e, idxEmoji) {
-        var d = document.createElement("button");
-        d.type = "button";
-        d.className = "match-item match-item-btn";
-        d.style.fontSize = "3rem";
-        d.innerHTML = "<span aria-hidden='true'>" + e + "</span>";
-        d.setAttribute("data-emoji-idx", String(drawsEl.childElementCount));
-        d.addEventListener("click", function () {
-          selectedEmoji = parseInt(d.getAttribute("data-emoji-idx"), 10);
-          Array.prototype.forEach.call(drawsEl.querySelectorAll(".match-item-btn"), function (b) {
-            b.classList.toggle("is-selected", b === d);
-          });
-          tryConnect();
-        });
-        drawsEl.appendChild(d);
-      });
-      state.textContent = "";
-      redrawLines();
-    }
-
-    btnCheck.addEventListener("click", function () {
-      var ok = true;
-      for (var i = 0; i < round.length; i++) {
-        var pick = pairs[String(i)];
-        if (pick == null) ok = false;
-        else if (round[i].emoji !== emojis[pick]) ok = false;
-      }
-      state.className = "small mt-2 " + (ok ? "text-success" : "text-danger");
-      state.textContent = ok ? "Correcto." : "Hay uniones incorrectas.";
-      showBanner(ok);
-      if (ok) setTimeout(renderRound, 2000);
-    });
-    if (btnListen) {
-      btnListen.addEventListener("click", function () {
-        var words = round.map(function (r) { return r.word; }).join(", ");
-        speak(words);
-      });
-    }
-    btnNext.addEventListener("click", renderRound);
-    createVoiceNext(btnVoice, renderRound, state);
-    window.addEventListener("resize", redrawLines);
-    renderRound();
-  }
-
-  function initUnirMayusculas() {
-    if (document.body.getAttribute("data-game") !== "unir-mayusculas") return;
-    var upEl = document.getElementById("listaMayusculas");
-    var lowEl = document.getElementById("listaMinusculas");
-    var selEl = document.getElementById("listaSelectsLetras");
-    var btnCheck = document.getElementById("btnComprobar");
-    var btnListen = document.getElementById("btnEscucharJuego");
-    var btnNext = document.getElementById("btnSiguiente");
-    var btnVoice = document.getElementById("btnVozSiguiente");
-    var state = document.getElementById("estadoJuego");
-    if (!upEl || !lowEl || !selEl || !btnCheck || !btnNext) return;
-
-    var letters = [];
-    var lowers = [];
-    var pairs = {}; // upperIndex -> lowerIndex
-    var selectedUp = null;
-    var selectedLow = null;
-
-    function redrawLines() {
-      var root = nearestMatchRoot(upEl);
-      if (!root) return;
-      var svg = createOrGetSvgOverlay(root);
-      if (!svg) return;
-      resizeSvgToRoot(svg, root);
-      clearChildren(svg);
-      Object.keys(pairs).forEach(function (k) {
-        var ui = parseInt(k, 10);
-        var li = pairs[k];
-        var upBtn = upEl.querySelector('[data-up-idx="' + ui + '"]');
-        var lowBtn = lowEl.querySelector('[data-low-idx="' + li + '"]');
-        if (!upBtn || !lowBtn) return;
-        var a = getCenterWithin(upBtn, root);
-        var b = getCenterWithin(lowBtn, root);
-        drawCurvedLine(svg, a, b, "var(--letritas-pink)", "u" + ui);
-      });
-    }
-
-    function clearSelections() {
-      selectedUp = null;
-      selectedLow = null;
-      Array.prototype.forEach.call(upEl.querySelectorAll(".match-item-btn"), function (b) {
-        b.classList.remove("is-selected");
-      });
-      Array.prototype.forEach.call(lowEl.querySelectorAll(".match-item-btn"), function (b) {
-        b.classList.remove("is-selected");
-      });
-    }
-
-    function tryConnect() {
-      if (selectedUp == null || selectedLow == null) return;
-      pairs[String(selectedUp)] = selectedLow;
-      clearSelections();
-      redrawLines();
-    }
-
-    function renderRound() {
-      letters = sample(LETTERS, 6);
-      lowers = shuffle(
-        letters.map(function (l) {
-          return l.toLowerCase();
-        })
-      );
-      pairs = {};
-      clearSelections();
-      upEl.innerHTML = "";
-      lowEl.innerHTML = "";
-      selEl.innerHTML = "";
-      letters.forEach(function (l) {
-        var d = document.createElement("button");
-        d.type = "button";
-        d.className = "match-item match-item-btn";
-        d.textContent = l;
-        d.setAttribute("data-up-idx", String(upEl.childElementCount));
-        d.addEventListener("click", function () {
-          selectedUp = parseInt(d.getAttribute("data-up-idx"), 10);
-          Array.prototype.forEach.call(upEl.querySelectorAll(".match-item-btn"), function (b) {
-            b.classList.toggle("is-selected", b === d);
-          });
-          tryConnect();
-        });
-        upEl.appendChild(d);
-      });
-      lowers.forEach(function (l) {
-        var d = document.createElement("button");
-        d.type = "button";
-        d.className = "match-item match-item-btn";
-        d.textContent = l;
-        d.setAttribute("data-low-idx", String(lowEl.childElementCount));
-        d.addEventListener("click", function () {
-          selectedLow = parseInt(d.getAttribute("data-low-idx"), 10);
-          Array.prototype.forEach.call(lowEl.querySelectorAll(".match-item-btn"), function (b) {
-            b.classList.toggle("is-selected", b === d);
-          });
-          tryConnect();
-        });
-        lowEl.appendChild(d);
-      });
-      state.textContent = "";
-      redrawLines();
-    }
-
-    btnCheck.addEventListener("click", function () {
-      var ok = true;
-      for (var i = 0; i < letters.length; i++) {
-        var pick = pairs[String(i)];
-        if (pick == null) ok = false;
-        else if (lowers[pick] !== letters[i].toLowerCase()) ok = false;
-      }
-      state.className = "small mt-2 " + (ok ? "text-success" : "text-danger");
-      state.textContent = ok ? "Correcto." : "Algunas uniones no coinciden.";
-      showBanner(ok);
-      if (ok) setTimeout(renderRound, 2000);
-    });
-    if (btnListen) {
-      btnListen.addEventListener("click", function () {
-        speak(letters.join(", "));
-      });
-    }
-    btnNext.addEventListener("click", renderRound);
-    createVoiceNext(btnVoice, renderRound, state);
-    window.addEventListener("resize", redrawLines);
-    renderRound();
-  }
-
-  window.LetritasGames = {
+  window.LetroGames = {
     letters: LETTERS.slice(),
     totalWords: getAllWords().length,
+    getDifficulty: getDifficulty,
     nextLetter: function (letter) {
       var i = LETTERS.indexOf(letter);
       if (i < 0) return LETTERS[0];
       return LETTERS[(i + 1) % LETTERS.length];
     },
     speak: speak,
+    stopSpeech: stopSpeech,
     voiceNext: createVoiceNext,
     soundEnabled: soundEnabled,
+    syncSoundBlocks: syncSoundBlocks,
   };
 
   function updateSoundControls() {
@@ -1065,11 +684,10 @@
         btn.title = btn.id === "btnSonidoLetra" ? "Reproducir sonido" : "Escuchar sonido";
       }
     });
+    syncSoundBlocks();
   }
 
-  // Listener para cambios en la configuración de sonido
   window.addEventListener("soundSettingChanged", function () {
-    // Cancelar cualquier reproducción en curso
     if (window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
@@ -1078,9 +696,8 @@
 
   updateSoundControls();
 
-  initLetraSonido();
-  initPalabras();
-  initSilabas();
-  initUnirDibujos();
-  initUnirMayusculas();
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") stopSpeech();
+  });
+  window.addEventListener("pagehide", stopSpeech);
 })();

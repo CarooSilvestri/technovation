@@ -22,7 +22,7 @@
     HOME: "home.html",
     PROFILE: "perfil.html",
     GAME_UNIR_DIBUJOS: "juego-unir-dibujos.html",
-    GAME_UNIR_MAYUSCULAS: "juego-unir-mayusculas.html",
+    GAME_UNIR_LETRAS: "juego-unir-letras.html",
     GAME_SILABAS: "juego-silabas.html",
   };
 

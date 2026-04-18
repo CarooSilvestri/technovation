@@ -14,6 +14,7 @@
     />
     <link href="css/styles.css" rel="stylesheet" />
   </head>
+
   <body data-game="dibujar-letra">
     <header class="d-flex align-items-center px-3 py-2 justify-content-between gap-2 app-home-header">
       <div class="d-flex justify-content-between w-100 px-3 py-1 align-items-center">
@@ -37,23 +38,19 @@
       </p>
 
       <label class="form-label fw-semibold" for="letraElegida">Elegí una letra</label>
-      <select class="form-select form-select-lg mb-3" id="letraElegida">
-        <option value="A">A a</option>
-        <option value="E">E e</option>
-        <option value="I">I i</option>
-        <option value="O">O o</option>
-        <option value="U">U u</option>
-      </select>
+      <select class="form-select form-select-lg mb-3" id="letraElegida"></select>
 
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="fw-semibold">Escuchar</span>
-        <button type="button" class="btn btn-outline-primary" id="btnSonidoLetra" title="Reproducir sonido">
-          🔊 Sonido de la letra
-        </button>
+      <div id="sonidoLetra" class="d-flex flex-column gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <span class="fw-semibold">Escuchar</span>
+          <button type="button" class="btn btn-outline-primary" id="btnSonidoLetra" title="Reproducir sonido">
+            🔊 Sonido de la letra
+          </button>
+        </div>
+        <p class="small text-muted">Escucha la letra y trázala en el recuadro.</p>
       </div>
-      <p class="small text-muted">Escucha la letra y trázala en el recuadro.</p>
 
-      <div class="trace-area mt-3">
+      <div class="trace-area">
         <div class="trace-guide" aria-hidden="true">
           <span style="margin-right: 0.15em">A</span><span style="font-size: 0.65em">a</span>
         </div>
@@ -62,23 +59,22 @@
 
       <div class="mt-3">
         <label class="form-label fw-semibold">Elegí un color</label>
-        <div class="d-flex gap-2" id="colorPicker">
-          <button type="button" class="btn btn-sm" style="background-color: #4a677d; width: 30px; height: 30px;" data-color="#4a677d"></button>
-          <button type="button" class="btn btn-sm" style="background-color: #8fb1cc; width: 30px; height: 30px;" data-color="#8fb1cc"></button>
-          <button type="button" class="btn btn-sm" style="background-color: #b4cfb0; width: 30px; height: 30px;" data-color="#b4cfb0"></button>
-          <button type="button" class="btn btn-sm" style="background-color: #e5c1cd; width: 30px; height: 30px;" data-color="#e5c1cd"></button>
-          <button type="button" class="btn btn-sm" style="background-color: #2d3540; width: 30px; height: 30px;" data-color="#2d3540"></button>
-        </div>
+        <div class="d-flex gap-2 justify-content-between">
+          <div class="d-flex gap-2" id="colorPicker">
+            <button type="button" class="btn btn-sm" style="background-color: #4a677d; width: 30px; height: 30px;" data-color="#4a677d"></button>
+            <button type="button" class="btn btn-sm" style="background-color: #8fb1cc; width: 30px; height: 30px;" data-color="#8fb1cc"></button>
+            <button type="button" class="btn btn-sm" style="background-color: #b4cfb0; width: 30px; height: 30px;" data-color="#b4cfb0"></button>
+            <button type="button" class="btn btn-sm" style="background-color: #e5c1cd; width: 30px; height: 30px;" data-color="#e5c1cd"></button>
+            <button type="button" class="btn btn-sm" style="background-color: #2d3540; width: 30px; height: 30px;" data-color="#2d3540"></button>
+          </div>
+        <button type="button" class="btn btn-outline-secondary" id="btnLimpiar">Borrar trazo</button>
+      </div>  
       </div>
 
       <div class="d-flex gap-2 mt-3">
-        <button type="button" class="btn btn-outline-secondary" id="btnLimpiar">Borrar trazo</button>
-        <button type="button" class="btn btn-primary ms-auto" id="btnSiguiente">Siguiente letra</button>
-      </div>
-      <div class="d-grid mt-2">
-        <button type="button" class="btn btn-outline-primary" id="btnVozSiguiente">🎤 Decir "siguiente"</button>
-      </div>
-      <p class="small text-muted mt-2 mb-0" id="estadoJuego"></p>
+        <button type="button" class="btn btn-outline-primary w-50" id="btnVozSiguiente">🎤 Decir "siguiente"</button>
+        <button type="button" class="btn btn-primary w-50" id="btnSiguiente">Siguiente letra</button>
+        </div>
     </main>
 
     <script
@@ -89,8 +85,8 @@
     <script src="js/get_name.js"></script>
     <script src="js/pwa.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/juegos.js"></script>
-    <script src="js/juego-dibujar-letra.js"></script>
+    <script src="js/juegos/core.js"></script>
+    <script src="js/juegos/dibujar-letra.js"></script>
     <script src="js/emoji-extended.js"></script>
   </body>
 </html>

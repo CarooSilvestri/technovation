@@ -1,7 +1,8 @@
-// app/js/juego-dibujar-letra.js — Canvas de trazo de demostración y actualización de guía tipográfica.
 
 (function () {
   "use strict";
+
+  if (document.body.getAttribute("data-game") !== "dibujar-letra") return;
 
   const canvas = document.getElementById("traceCanvas");
   const guide = document.querySelector(".trace-guide");
@@ -10,7 +11,6 @@
   const btnSound = document.getElementById("btnSonidoLetra");
   const btnNext = document.getElementById("btnSiguiente");
   const btnVoice = document.getElementById("btnVozSiguiente");
-  const status = document.getElementById("estadoJuego");
   const colorPicker = document.getElementById("colorPicker");
 
   if (!canvas || !guide) return;
@@ -34,7 +34,23 @@
     guide.append(spanMay, spanMin);
   }
 
-  const letras = (window.LetritasGames && window.LetritasGames.letters) || ["A", "E", "I", "O", "U"];
+  /** Al cambiar de letra (lista o “siguiente”) se borra lo dibujado. */
+  function syncLetterAndClearStroke() {
+    drawing = false;
+    setGuideFromSelect();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  const todas =
+    (window.LetroGames && window.LetroGames.letters) || ["A", "E", "I", "O", "U"];
+  var modo =
+    window.LetroGames && typeof window.LetroGames.getDifficulty === "function"
+      ? window.LetroGames.getDifficulty()
+      : "facil";
+  let letras;
+  if (modo === "facil") letras = ["A", "E", "I", "O", "U"];
+  else if (modo === "intermedio") letras = todas.slice(0, Math.min(18, todas.length));
+  else letras = todas.slice();
   if (select) {
     select.innerHTML = "";
     letras.forEach((l) => {
@@ -45,7 +61,7 @@
     });
   }
 
-  select?.addEventListener("change", setGuideFromSelect);
+  select?.addEventListener("change", syncLetterAndClearStroke);
   setGuideFromSelect();
 
   function pos(e) {
@@ -93,45 +109,23 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   });
 
-  function updateSoundButton() {
-    var enabled = true;
-    if (window.LetritasGames && typeof window.LetritasGames.soundEnabled === "function") {
-      enabled = window.LetritasGames.soundEnabled();
-    }
-    if (btnSound) {
-      btnSound.disabled = !enabled;
-      btnSound.title = enabled ? "Reproducir sonido" : "Sonido desactivado";
-    }
-    if (status && !enabled) {
-      status.textContent = "Sonido desactivado.";
-    }
-  }
-
   btnSound?.addEventListener("click", () => {
     const letra = select?.value || "A";
-    const ok = window.LetritasGames && window.LetritasGames.speak
-      ? window.LetritasGames.speak(letra)
+    window.LetroGames && window.LetroGames.speak
+      ? window.LetroGames.speak(letra)
       : false;
-    if (status) {
-      status.textContent = ok ? "Sonido reproducido." : "Sonido desactivado.";
-    }
     btnSound.classList.add("active");
     setTimeout(() => btnSound.classList.remove("active"), 200);
   });
 
-  window.addEventListener("soundSettingChanged", updateSoundButton);
-  updateSoundButton();
-
   btnNext?.addEventListener("click", () => {
     if (!select) return;
     const cur = select.value || "A";
-    const next = window.LetritasGames && window.LetritasGames.nextLetter
-      ? window.LetritasGames.nextLetter(cur)
+    const next = window.LetroGames && window.LetroGames.nextLetter
+      ? window.LetroGames.nextLetter(cur)
       : cur;
     select.value = next;
-    setGuideFromSelect();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (status) status.textContent = `Siguiente letra: ${next}`;
+    syncLetterAndClearStroke();
   });
 
   if (colorPicker) {
@@ -142,13 +136,12 @@
         e.target.classList.add("active");
       }
     });
-    // Set initial active
     colorPicker.children[0].classList.add("active");
   }
 
-  if (window.LetritasGames && window.LetritasGames.voiceNext) {
-    window.LetritasGames.voiceNext(btnVoice, () => {
+  if (window.LetroGames && window.LetroGames.voiceNext) {
+    window.LetroGames.voiceNext(btnVoice, () => {
       btnNext?.click();
-    }, status);
+    }, null);
   }
 })();

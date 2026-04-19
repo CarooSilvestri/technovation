@@ -26,38 +26,39 @@
       referrerpolicy="no-referrer"
     />
     <script src="js/config.js"></script>
+    <script src="js/nivel-cards.js"></script>
   </head>
 
-  <body data-registro>
+  <body id="app-page-registro">
     <header class="app-registro-header pt-4 pb-3 border-bottom border-secondary-subtle rounded-bottom-4">
       <div
         class="container-fluid d-flex flex-column align-items-center gap-2"
       >
         <h2 class="app-registro-title mb-0 text-uppercase">Registro</h2>
         <p class="app-registro-step-meta small mb-0 fw-semibold opacity-75" aria-live="polite">
-          Paso <span id="">1</span> de <script>document.write(window.LETRO_CONFIG.STEPS);</script>
+          Paso <span id="current-step">1</span> de <script>document.write(window.LETRO_CONFIG.STEPS);</script>
         </p>
         <div
+          id="registro-progress"
           class="d-flex w-100 gap-2 align-items-center"
           role="progressbar"
           aria-valuemin="1"
           aria-valuemax="3"
           aria-valuenow="1"
           aria-label="Progreso del registro"
-          data-registro-progress
         >
-          <span class="step-bar active is-current" data-step-dot></span>
-          <span class="step-bar" data-step-dot></span>
-          <span class="step-bar" data-step-dot></span>
+          <span class="step-bar active is-current"></span>
+          <span class="step-bar"></span>
+          <span class="step-bar"></span>
         </div>
       </div>
     </header>
 
-    <main class="container-fluid pt-4">
-      <form class="app-registro-form" action="#" method="get" onsubmit="return false;">
+    <main class="container pt-4">
+      <form class="app-registro-form d-flex flex-column gap-4" action="#" method="get" onsubmit="return false;">
         <!-- Nombre y avatar -->
         <div id="step-0">
-          <h2 class="app-registro-question">¿Cómo te llamas?</h2>
+          <h2 class="text-center mb-3">¿Cómo te llamas?</h2>
           <label class="visually-hidden" for="nombre">Nombre</label>
           <input  
             type="text"
@@ -71,77 +72,59 @@
           <hr class="my-4"/>
           <div class="d-flex flex-column gap-3">
             <h2 class="text-center pb-3">Elige tu avatar</h2>
+            <input type="hidden" id="avatar" name="avatar" value="" />
             <div class="row g-3 app-avatar-grid" id="avatar-grid"></div>
           </div>
         </div>
 
         <!-- Edad -->
         <div id="step-1" hidden>
-          <h2 class="app-registro-question app-registro-question--edad">¿Cuántos años tienes?</h2>
-          <div class="app-edad-picker" role="group" aria-labelledby="edad-label">
-            <span id="edad-label" class="visually-hidden">Elegí tu edad en años</span>
-            <input type="hidden" id="edad" name="edad" value="6" />
-            <div class="app-edad-grid" data-edad-grid role="radiogroup" aria-labelledby="edad-label"></div>
+          <h2 class="text-center" id="edad-label">¿Cuántos años tienes?</h2>
+          <input type="hidden" id="edad" name="edad" value="" />
+          <div class="app-edad-picker">
+            <div
+              class="app-edad-grid row g-3"
+              id="edad-grid"
+              role="radiogroup"
+              aria-labelledby="edad-label"
+            ></div>
           </div>
         </div>
 
-        <!-- Nivel -->
-        <div id="step-2" hidden class="app-nivel-step">
-          <h2 id="nivel-title" class="app-nivel-title">Elige tu nivel</h2>
+        <!-- Nivel (markup desde js/nivel-cards.js) -->
+        <div id="step-2" hidden>
+          <h2 class="text-center mb-3" id="nivel-title">Elige tu nivel</h2>
           <p class="app-nivel-subtitle">
             Configura el desafío perfecto para comenzar tu viaje de aprendizaje.
           </p>
 
-          <div class="app-nivel-cards" role="radiogroup" aria-labelledby="nivel-title">
-            <label class="app-nivel-card app-nivel-card--facil">
-              <input type="radio" name="dificultad" value="facil" class="visually-hidden" checked />
-              <span class="app-nivel-badge">RECOMENDADO</span>
-              <div class="app-nivel-card-inner">
-                <span class="app-nivel-icon" aria-hidden="true">👶</span>
-                <div class="app-nivel-copy">
-                  <span class="app-nivel-name">Fácil</span>
-                  <span class="app-nivel-desc">Solo vocales para un comienzo suave.</span>
-                </div>
-              </div>
-            </label>
-
-            <label class="app-nivel-card app-nivel-card--intermedio">
-              <input type="radio" name="dificultad" value="intermedio" class="visually-hidden" />
-              <div class="app-nivel-card-inner">
-                <span class="app-nivel-icon" aria-hidden="true">📖</span>
-                <div class="app-nivel-copy">
-                  <span class="app-nivel-name">Intermedio</span>
-                  <span class="app-nivel-desc">Vocales + consonantes para frases.</span>
-                </div>
-              </div>
-            </label>
-
-            <label class="app-nivel-card app-nivel-card--dificil">
-              <input type="radio" name="dificultad" value="dificil" class="visually-hidden" />
-              <div class="app-nivel-card-inner">
-                <span class="app-nivel-icon" aria-hidden="true">🎓</span>
-                <div class="app-nivel-copy">
-                  <span class="app-nivel-name">Difícil</span>
-                  <span class="app-nivel-desc">Abecedario completo. El gran reto.</span>
-                </div>
-              </div>
-            </label>
-          </div>
+          <div
+            id="registro-nivel-mount"
+            class="d-flex flex-column gap-2"
+            role="radiogroup"
+            aria-labelledby="nivel-title"
+          ></div>
 
           <p class="app-nivel-footnote">
             Podrás cambiar la dificultad en cualquier momento desde ajustes.
           </p>
         </div>
 
-        <div class="d-flex justify-content-between">
-          <button type="button" class="btn btn-outline-secondary" data-registro-prev hidden>
+        <!-- Footer -->
+        <div class="d-flex footer justify-content-between sticky-bottom gap-2 pb-4">
+          <button type="button" class="btn btn-outline-secondary" id="btnBack" hidden>
             Atrás
           </button>
-          <button type="button" class="btn btn-primary" data-registro-next>
-            Siguiente
+          <button type="button" class="btn btn-primary btn-lg ms-auto" id="btnNext">
+            Siguiente →
           </button>
-          <button type="button" class="btn btn-primary app-registro-btn-play" data-registro-submit hidden>
-            ¡A jugar! <span class="app-registro-btn-play-ico" aria-hidden="true">🚀</span>
+          <button
+            type="button"
+            class="btn btn-primary btn-lg ms-auto"
+            id="btnSubmit"
+            hidden
+          >
+            ¡A jugar!
           </button>
         </div>
       </form>
@@ -151,7 +134,7 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
-    <script src="js/config.js"></script>
-    <script src="js/register.js"></script>
+    <script src="js/pwa.js"></script>
+    <script type="module" src="js/register/register.js"></script>
   </body>
 </html>

@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#3E5B77" />
-    <title>Letritas — Mi perfil</title>
+    <title>Letro</title>
     <link rel="manifest" href="manifest.json" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,184 +18,145 @@
       rel="stylesheet"
       crossorigin="anonymous"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
     <link href="css/styles.css" rel="stylesheet" />
   </head>
-  <body data-perfil>
-    <header class="app-perfil-header">
-      <div class="app-perfil-header-inner">
-        <a class="app-perfil-back" href="home.html" aria-label="Volver al inicio">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="M15 18l-6-6 6-6"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+
+  <body id="app-page-perfil">
+    <header class="d-flex align-items-center px-3 py-2 app-home-header">
+      <div class="d-flex align-items-center justify-content-between gap-3 w-100">
+        <a
+          href="home.html"
+          class="app-shell-back-link text-body text-decoration-none d-inline-flex align-items-center gap-3 flex-grow-1 min-w-0"
+          aria-label="Volver al inicio"
+        >
+          <span class="d-inline-flex flex-shrink-0 align-items-center justify-content-center fs-5 lh-1" aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+          <span class="app-shell-back-text fw-semibold text-truncate">Volver al inicio</span>
         </a>
-        <h1 class="app-perfil-title">Letritas</h1>
-        <span class="app-perfil-header-spacer" aria-hidden="true"></span>
+        <a
+          class="app-home-avatar app-home-avatar-link d-inline-flex align-items-center justify-content-center flex-shrink-0 rounded-circle text-decoration-none"
+          href="perfil.html"
+          aria-label="Ir al perfil"
+        >
+          <span id="emoji" aria-hidden="true"></span>
+        </a>
       </div>
     </header>
 
-    <main class="app-perfil-main">
-      <div class="app-perfil-hero text-center">
-        <div class="app-perfil-avatar-wrap">
-          <div class="app-perfil-avatar-circle">
-            <span class="app-perfil-avatar-emoji" data-perfil-emoji aria-hidden="true">🐝</span>
+    <main class="container py-4">
+      <div class="text-center">
+        <div class="position-relative d-inline-block mb-4">
+          <div
+            class="rounded-circle d-flex align-items-center justify-content-center shadow-sm avatar-circle"
+          >
+            <h1 id="perfil-emoji" aria-hidden="true">🐝</h1>
           </div>
           <button
             type="button"
-            class="app-perfil-camera"
-            data-perfil-toggle-avatars
+            id="perfil-btn-avatar"
+            class="btn btn-light rounded-circle border border-2 border-white shadow-sm p-0 d-inline-flex align-items-center justify-content-center position-absolute app-perfil-camera-btn "
             aria-label="Cambiar avatar"
             title="Cambiar avatar"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2v11z"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-width="2" />
-            </svg>
+            <i class="bi bi-camera-fill" aria-hidden="true"></i>
           </button>
         </div>
-        <p class="app-perfil-name mb-1" data-perfil-nombre>Nombre</p>
-        <p class="app-perfil-role mb-0" data-perfil-subtitulo>—</p>
+        <p id="perfil-nombre" class="fs-3 fw-bold mb-1">Nombre</p>
+        <p id="perfil-subtitulo" class="app-perfil-role small fw-semibold text-muted text-uppercase mb-0">—</p>
       </div>
 
-      <div class="app-perfil-card">
-        <div class="app-perfil-row">
-          <span class="app-perfil-icon app-perfil-icon-bw" aria-hidden="true"></span>
-          <span class="app-perfil-row-label">Modo Blanco y Negro</span>
+      <div class="px-3 py-4">
+        <div class="d-flex align-items-center gap-3 py-2">
+          <span
+            class="app-perfil-icon rounded-circle flex-shrink-0 shadow-sm d-inline-flex align-items-center justify-content-center bg-white"
+            aria-hidden="true"
+          >
+            <i class="bi bi-circle-half lh-1" aria-hidden="true"></i>
+          </span>
+          <span class="flex-grow-1 fw-semibold">Modo Blanco y Negro</span>
           <div class="form-check form-switch app-perfil-switch mb-0">
             <input
-              class="form-check-input"
+              class="form-check-input app-perfil-switch-input"
               type="checkbox"
               role="switch"
-              id="bw"
-              data-profile-bw
+              id="perfil-bw"
             />
-            <label class="visually-hidden" for="bw">Modo blanco y negro</label>
+            <label class="visually-hidden" for="perfil-bw">Modo blanco y negro</label>
           </div>
         </div>
-        <div class="app-perfil-row">
-          <span class="app-perfil-icon app-perfil-icon-sound" aria-hidden="true"></span>
-          <span class="app-perfil-row-label">Sonido activado</span>
+        
+        <div class="d-flex align-items-center gap-3 py-2">
+          <span
+            class="app-perfil-icon app-perfil-icon-sound rounded-circle flex-shrink-0 shadow-sm d-inline-flex align-items-center justify-content-center bg-white"
+            aria-hidden="true"
+          >
+            <i class="bi bi-volume-up-fill lh-1" aria-hidden="true"></i>
+          </span>
+          <span class="flex-grow-1 fw-semibold">Sonido activado</span>
           <div class="form-check form-switch app-perfil-switch mb-0">
             <input
-              class="form-check-input"
+              class="form-check-input app-perfil-switch-input"
               type="checkbox"
               role="switch"
-              id="sound"
-              data-profile-sound
+              id="perfil-sound"
               checked
             />
-            <label class="visually-hidden" for="sound">Sonido activado</label>
+            <label class="visually-hidden" for="perfil-sound">Sonido activado</label>
           </div>
         </div>
 
-        <div class="app-perfil-divider" role="presentation"></div>
-        <p class="app-perfil-section-label">CAMBIAR NIVEL</p>
+        <hr class="my-3 opacity-25" />
+        <p class="text-uppercase small fw-bold text-secondary mb-3">Cambiar nivel</p>
 
-        <div class="app-perfil-levels">
-          <button type="button" class="app-perfil-level app-perfil-level--facil" data-perfil-level="facil">
-            <span class="app-perfil-level-face" aria-hidden="true">😊</span>
-            <span class="app-perfil-level-text">
-              <span class="app-perfil-level-kicker">NIVEL</span>
-              <span class="app-perfil-level-name">FÁCIL</span>
-            </span>
-            <span class="app-perfil-level-trail" data-perfil-level-indicator></span>
-          </button>
-          <button
-            type="button"
-            class="app-perfil-level app-perfil-level--intermedio"
-            data-perfil-level="intermedio"
-          >
-            <span class="app-perfil-level-face" aria-hidden="true">😐</span>
-            <span class="app-perfil-level-text">
-              <span class="app-perfil-level-kicker">NIVEL</span>
-              <span class="app-perfil-level-name">INTERMEDIO</span>
-            </span>
-            <span class="app-perfil-level-trail" data-perfil-level-indicator></span>
-          </button>
-          <button type="button" class="app-perfil-level app-perfil-level--dificil" data-perfil-level="dificil">
-            <span class="app-perfil-level-face" aria-hidden="true">😆</span>
-            <span class="app-perfil-level-text">
-              <span class="app-perfil-level-kicker">NIVEL</span>
-              <span class="app-perfil-level-name">DIFÍCIL</span>
-            </span>
-            <span class="app-perfil-level-trail" data-perfil-level-indicator></span>
-          </button>
-        </div>
-
-        <div class="app-perfil-avatars-collapse" data-perfil-avatar-panel hidden>
-          <p class="app-perfil-avatars-hint small mb-2">Elegí tu avatar</p>
-          <div class="row g-2 app-perfil-avatar-grid">
-            <div class="col-4">
-              <button type="button" class="app-perfil-avatar-pick" data-avatar-id="abeja" data-emoji="🐝">
-                <span class="fs-3">🐝</span>
-              </button>
-            </div>
-            <div class="col-4">
-              <button type="button" class="app-perfil-avatar-pick" data-avatar-id="gato" data-emoji="🐱">
-                <span class="fs-3">🐱</span>
-              </button>
-            </div>
-            <div class="col-4">
-              <button type="button" class="app-perfil-avatar-pick" data-avatar-id="oso" data-emoji="🐻">
-                <span class="fs-3">🐻</span>
-              </button>
-            </div>
-            <div class="col-4">
-              <button type="button" class="app-perfil-avatar-pick" data-avatar-id="conejo" data-emoji="🐰">
-                <span class="fs-3">🐰</span>
-              </button>
-            </div>
-            <div class="col-4">
-              <button type="button" class="app-perfil-avatar-pick" data-avatar-id="buho" data-emoji="🦉">
-                <span class="fs-3">🦉</span>
-              </button>
-            </div>
-            <div class="col-4">
-              <button type="button" class="app-perfil-avatar-pick" data-avatar-id="zorro" data-emoji="🦊">
-                <span class="fs-3">🦊</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <div id="perfil-nivel-mount" class="d-flex flex-column gap-2"></div>
       </div>
+
+      <hr class="my-3 opacity-25" />
 
       <div class="text-center mt-4">
-        <button type="button" class="btn btn-link app-perfil-logout" data-perfil-logout>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="me-1">
-            <path
-              d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          CERRAR SESIÓN
-        </button>
+        <p class="small text-muted mb-0">Versión 1.0.0</p>
+        <p class="small text-muted mb-0">©2026 Letro - Todos los derechos reservados</p>
+        <p class="small text-muted mb-0">Aplicacion desarrollada por <strong>Cyberfuturist</strong>.</p>
       </div>
 
-      <div class="text-center mt-3 pb-4">
-        <a class="btn btn-primary rounded-pill px-4" href="index.html">Ir a los juegos</a>
-      </div>
     </main>
+
+    <div
+      class="modal fade"
+      id="perfilAvatarModal"
+      tabindex="-1"
+      aria-labelledby="perfilAvatarModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4">
+          <div class="modal-header border-0 pb-0">
+            <h2 class="modal-title fs-5" id="perfilAvatarModalLabel">Elige tu avatar</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body pt-2">
+            <div class="row g-3 app-avatar-grid" id="perfil-avatar-grid"></div>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary app-perfil-btn-primary" id="btnGuardarAvatarPerfil">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
     <script src="js/config.js"></script>
-    <script src="js/get_name.js"></script>
+    <script src="js/nivel-cards.js"></script>
+    <script src="js/pwa.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/perfil/perfil.js"></script>
   </body>
 </html>

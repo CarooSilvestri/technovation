@@ -1,49 +1,98 @@
+// js/app.js — Perfil en localStorage, cabecera home y modo B/N; protege pantallas que incluyen este script.
 (function () {
   "use strict";
 
-  var STORAGE_KEY =
-    (window.LETRO_CONFIG && window.LETRO_CONFIG.STORAGE_KEY) || "letro_user";
-
-  function initInicio() {
-    var body = document.body;
-    if (!body || !body.hasAttribute("data-inicio")) return;
-    var emojiEl = document.querySelector("[data-home-emoji]");
-    if (!nombreEl && !emojiEl) return;
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      var p = raw ? JSON.parse(raw) : null;
-      var n =
-        typeof getNombre === "function"
-          ? getNombre() || (p && p.nombre && String(p.nombre).trim())
-          : p && p.nombre && String(p.nombre).trim();
-      if (nombreEl) nombreEl.textContent = n || "explorador";
-      if (emojiEl) emojiEl.textContent = (p && p.avatarEmoji) || "🐰";
-    } catch (e) {
-      if (nombreEl) nombreEl.textContent = "explorador";
-      if (emojiEl) emojiEl.textContent = "🐰";
-    }
-  }
+  var STORAGE_KEY = window.LETRO_CONFIG.STORAGE_KEY;
 
   function loadProfile() {
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return null;
-      var p = JSON.parse(raw);
-      return p && typeof p === "object" ? p : null;
-    } catch (e) {
-      return null;
-    }
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    var p = JSON.parse(raw);
+    return p && typeof p === "object" ? p : null;
   }
+
+  /** Perfil guardado por registro: exige nombre para considerar sesión válida. */
+  function hasValidLetroUser(profile) {
+    return !!(
+      profile &&
+      typeof profile === "object" &&
+      String(profile.nombre || "").trim()
+    );
+  }
+
+  function redirectToIndexIfNoUser() {
+    if (hasValidLetroUser(loadProfile())) return false;
+    window.location.replace(window.PAGES.INDEX);
+    return true;
+  }
+
+  if (redirectToIndexIfNoUser()) return;
+
+  function getAvatarList() {
+    return window.LETRO_CONFIG.AVATARS;
+  }
+
+  /** Emoji coherente con LETRO_CONFIG.AVATARS y el perfil (avatarId, etiqueta en avatar, o avatarEmoji). */
+  function resolveLetroAvatarEmoji(profile) {
+    var list = getAvatarList();
+    var fallback = list.length ? list[0].emoji : "🐰";
+    if (!profile || typeof profile !== "object") return fallback;
+
+    var id =
+      profile.avatarId != null ? String(profile.avatarId).toLowerCase() : "";
+    if (id) {
+      for (var i = 0; i < list.length; i++) {
+        if (
+          list[i].id &&
+          String(list[i].id).toLowerCase() === id
+        ) {
+          return list[i].emoji;
+        }
+      }
+    }
+
+    var label = profile.avatar != null ? String(profile.avatar) : "";
+    if (label) {
+      for (var j = 0; j < list.length; j++) {
+        if (list[j].label === label) return list[j].emoji;
+      }
+    }
+
+    if (profile.avatarEmoji) return String(profile.avatarEmoji);
+
+    return fallback;
+  }
+
+  function syncLetroAvatarFromStorage() {
+    var emojiEl =
+      document.getElementById("emoji") ||
+      document.querySelector("[data-home-emoji]");
+    if (!emojiEl) return;
+    emojiEl.textContent = resolveLetroAvatarEmoji(loadProfile());
+  }
+
+  /** Saludo + emoji en cabeceras que comparten #name y #emoji / [data-home-emoji]. */
+  function initHomeHeader() {
+    var nombreEl = document.getElementById("name");
+    var emojiEl =
+      document.getElementById("emoji") ||
+      document.querySelector("[data-home-emoji]");
+    if (!nombreEl && !emojiEl) return;
+    var raw = localStorage.getItem(STORAGE_KEY);
+    var p = raw ? JSON.parse(raw) : null;
+    var n = p && p.nombre && String(p.nombre).trim();
+    if (nombreEl) nombreEl.textContent = n || "explorador";
+    if (emojiEl) emojiEl.textContent = resolveLetroAvatarEmoji(p);
+  }
+
+  window.resolveLetroAvatarEmoji = resolveLetroAvatarEmoji;
+  window.syncLetroAvatarFromStorage = syncLetroAvatarFromStorage;
 
   /** Modo blanco y negro global (persistido en perfil). */
   function applyBwMode() {
     var root = document.documentElement;
-    try {
-      var p = loadProfile();
-      root.classList.toggle("letritas-bw-on", !!(p && p.bw));
-    } catch (e) {
-      root.classList.remove("letritas-bw-on");
-    }
+    var p = loadProfile();
+    root.classList.toggle("letro-bw-on", !!(p && p.bw));
   }
 
   function saveProfile(patch) {
@@ -55,135 +104,23 @@
     for (var j in patch) {
       if (Object.prototype.hasOwnProperty.call(patch, j)) next[j] = patch[j];
     }
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch (e) {}
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     return next;
   }
 
-  function perfilSubtitle(p) {
-    var e = p.edad;
-    if (e == null || Number.isNaN(Number(e))) return "EXPLORADOR";
-    var n = parseInt(e, 10);
-    var ageStr = n + (n === 1 ? " AÑO" : " AÑOS");
-    var tag =
-      n <= 7 ? "PEQUEÑO EXPLORADOR" : n <= 12 ? "JOVEN EXPLORADOR" : "APRENDIZ";
-    return ageStr + " · " + tag;
-  }
-
-  function initPerfil() {
-    var body = document.body;
-    if (!body || !body.hasAttribute("data-perfil")) return;
-
-    var p = loadProfile();
-    if (!p || !String(p.nombre || "").trim()) {
-      window.location.href = "registro.html";
-      return;
-    }
-
-    var nombreEl = document.querySelector("[data-perfil-nombre]");
-    var subEl = document.querySelector("[data-perfil-subtitulo]");
-    var emojiEl = document.querySelector("[data-perfil-emoji]");
-    var bwEl = document.querySelector("[data-profile-bw]");
-    var soundEl = document.querySelector("[data-profile-sound]");
-    var levelBtns = document.querySelectorAll("[data-perfil-level]");
-    var avatarBtns = document.querySelectorAll(".app-perfil-avatar-pick");
-    var camBtn = document.querySelector("[data-perfil-toggle-avatars]");
-    var panel = document.querySelector("[data-perfil-avatar-panel]");
-    var logoutBtn = document.querySelector("[data-perfil-logout]");
-
-    if (nombreEl) nombreEl.textContent = String(p.nombre).trim();
-    if (subEl) subEl.textContent = perfilSubtitle(p);
-    if (emojiEl) emojiEl.textContent = p.avatarEmoji || "🐝";
-
-    if (bwEl) {
-      bwEl.checked = !!p.bw;
-      bwEl.addEventListener("change", function () {
-        saveProfile({ bw: bwEl.checked });
-        applyBwMode();
-      });
-      applyBwMode();
-    }
-
-    if (soundEl) {
-      soundEl.checked = p.sonido !== false;
-      soundEl.addEventListener("change", function () {
-        saveProfile({ sonido: soundEl.checked });
-        // Cancelar cualquier sonido en reproducción
-        if (window.speechSynthesis) {
-          window.speechSynthesis.pause();
-          window.speechSynthesis.cancel();
-        }
-        // Notificar a otros scripts que el sonido cambió
-        window.dispatchEvent(new Event("soundSettingChanged"));
-      });
-    }
-
-    function syncLevelUI(d) {
-      var val = d || "facil";
-      levelBtns.forEach(function (btn) {
-        var v = btn.getAttribute("data-perfil-level");
-        btn.classList.toggle("is-selected", v === val);
-        btn.setAttribute("aria-pressed", v === val ? "true" : "false");
-      });
-    }
-
-    syncLevelUI(p.dificultad || "facil");
-
-    levelBtns.forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var v = btn.getAttribute("data-perfil-level");
-        if (!v) return;
-        p = saveProfile({ dificultad: v });
-        syncLevelUI(v);
-      });
-    });
-
-    function syncAvatarUI() {
-      var cur = loadProfile() || {};
-      var curId = (cur.avatarId || "abeja").toLowerCase();
-      avatarBtns.forEach(function (b) {
-        var id = (b.getAttribute("data-avatar-id") || "").toLowerCase();
-        b.classList.toggle("is-current", id === curId);
-      });
-    }
-
-    syncAvatarUI();
-
-    avatarBtns.forEach(function (b) {
-      b.addEventListener("click", function () {
-        var id = b.getAttribute("data-avatar-id");
-        var em = b.getAttribute("data-emoji");
-        if (!em) return;
-        p = saveProfile({ avatarId: id, avatarEmoji: em });
-        if (emojiEl) emojiEl.textContent = em;
-        syncAvatarUI();
-      });
-    });
-
-    if (camBtn && panel) {
-      camBtn.addEventListener("click", function () {
-        var open = panel.hidden;
-        panel.hidden = !open;
-        camBtn.setAttribute("aria-expanded", open ? "true" : "false");
-      });
-    }
-
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", function () {
-        try {
-          localStorage.removeItem(STORAGE_KEY);
-        } catch (e) {}
-        document.documentElement.classList.remove("letritas-bw-on");
-        window.location.href = "index.html";
-      });
-    }
-  }
+  /** API compartida con js/perfil/perfil.js */
+  window.LetroProfile = {
+    STORAGE_KEY: STORAGE_KEY,
+    loadProfile: loadProfile,
+    saveProfile: saveProfile,
+    getAvatarList: getAvatarList,
+    applyBwMode: applyBwMode,
+    hasValidLetroUser: hasValidLetroUser,
+  };
 
   function boot() {
     applyBwMode();
-    initInicio();
-    initPerfil();
+    initHomeHeader();
   }
 
   if (document.readyState === "loading") {
